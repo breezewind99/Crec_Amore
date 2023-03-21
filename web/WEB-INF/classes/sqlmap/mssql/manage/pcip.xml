@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pcip">
+
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INCLUDE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+	<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  QUERY  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+	<!-- 사용자PC 중복체크 selectDuplicateCheck -->
+	<select id="selectDuplicateCheck" parameterType="map" resultType="string">
+		/* 사용자PC 중복체크 selectDuplicateCheck */
+		<![CDATA[
+		select
+			case when sum(dup_pc_ip_cnt)>0 then 'DUP_PHONE_IP'
+				 else 'OK' end as result_code
+		from
+			(
+				select
+					count(*) as dup_pc_ip_cnt
+				from crec_pcip_info WITH(NOLOCK)
+				where pc_ip = #{pc_ip}
+			) U
+		]]>
+	</select>
+
+	<!-- 사용자PC IP 목록 selectList -->
+	<select id="selectList" parameterType="map" resultType="map">
+		/* 채널 목록 selectList */
+		select
+		pc_ip
+		,pc_ip as ori_pc_ip
+		,use_yn
+		,local_no
+		,bigo
+		from crec_pcip_info
+		where 1=1
+		<if test='pc_ip!=null and pc_ip!=""'>
+			and pc_ip like '%'+ #{pc_ip} + '%'
+		</if>
+		<if test='use_yn!=null and use_yn!=""'>
+			and use_yn = #{use_yn}
+		</if>
+		<if test='local_no!=null and local_no!=""'>
+			and local_no like '%'+ #{local_no} + '%'
+		</if>
+		<if test='bigo!=null and bigo!=""'>
+			and bigo like '%'+ #{bigo} + '%'
+		</if>
+		order by pc_ip asc
+	</select>
+
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INSERT :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+	<!-- 사용자PC IP 등록 insertPcip -->
+	<insert id="insertPcip" parameterType="map">
+		/* 사용자PC IP 등록 insertPcip */
+		insert into crec_pcip_info
+		(
+			pc_ip,use_yn,bigo,local_no
+		)
+		values
+			(
+				#{pc_ip},#{use_yn},#{bigo},#{local_no}
+			)
+	</insert>
+
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: UPDATE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+	<!-- 사용자PC IP 업데이트 updatePcip -->
+	<update id="updatePcip" parameterType="map">
+		/* 사용자PC IP updatePcip */
+		update crec_pcip_info
+		<set>
+			pc_ip = #{pc_ip}
+			,use_yn = #{use_yn}
+			,local_no = #{local_no}
+			,bigo = #{bigo}
+		</set>
+		where pc_ip = #{ori_pc_ip}
+	</update>
+
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: DELETE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+	<!-- 사용자PC IP 삭제 deleteChannel -->
+	<delete id="deletePcip" parameterType="string">
+		/* 사용자PC IP 삭제 deleteChannel */
+		delete from crec_pcip_info
+		where pc_ip = #{pc_ip}
+	</delete>
+
+</mapper>

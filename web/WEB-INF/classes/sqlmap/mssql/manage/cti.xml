@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cti">
+
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INCLUDE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  QUERY  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+	
+	<!-- CTI 정보 조회 selectList -->
+	<select id="selectList" parameterType="map" resultType="map">
+		/* CTI 정보 조회 selectList */
+		select 
+			(gi.system_code+'_'+gi.number) as row_id
+			,gi.number
+			,gi.system_code
+			,gi.ip
+			,gi.port
+			,gi.backup_ip
+			,gi.number as org_number
+			,gi.system_code as org_system_code
+			,gi.tenant
+			,gis.rec_mode
+			,gis.cti_status
+			,convert(varchar(19), gis.update_datetime, 121) as up_datm
+			,gis.pgend_receive
+			,gis.process_name
+		from genesys_info gi WITH(NOLOCK) 
+		left join genesys_info_status gis WITH(NOLOCK) on gi.number = gis.number and gi.system_code = gis.system_code
+		where 1=1
+		order by gi.system_code asc, gi.number asc
+	</select>
+	
+	<!-- CTI 코드 조회 selectCtiCdList -->
+	<select id="selectCtiCdList" parameterType="map" resultType="map">
+		/* CTI 코드 조회 selectCtiCdList */
+		select 
+			number
+			,number +' '+ tenant as tenant_num 
+		from genesys_info WITH(NOLOCK)
+		where system_code = #{system_code}
+		order by number asc
+	</select>
+	
+	<!-- 프로시저 등록 중복 체크 selectProcessOver -->
+	<select id="selectProcessOver" parameterType="map" resultType="int">
+		/* 프로시저 등록 중복 체크 selectProcessOver */
+		select count(number) as cnt 
+		from genesys_info_status WITH(NOLOCK)
+		where number = #{number}
+		and system_code = #{system_code}
+		and rec_mode = #{rec_mode}
+	</select>
+
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INSERT :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->	
+	
+	<!-- CTI 정보 등록 insertCti -->
+	<insert id="insertCti" parameterType="map">
+		/* CTI 정보 등록 insertCti */
+		insert into genesys_info 
+		(
+			number, system_code, ip, port, backup_ip, tenant
+		) values (
+			#{number}, #{system_code}, #{ip}, #{port}, #{backup_ip}, #{tenant}
+		)
+	</insert>
+	
+	<!-- CTI 프로세스 정보 등록 insertProcess -->
+	<insert id="insertProcess" parameterType="map">
+		/* CTI 프로세스 정보 등록 insertProcess */
+		insert into genesys_info_status 
+		(
+			number, system_code, rec_mode, process_name, update_datetime
+		) values (
+			#{number}, #{system_code}, #{rec_mode}, #{process_name}, getdate()
+		)
+	</insert>
+
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: UPDATE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+	
+	<!-- CTI 정보 수정 updateCti -->
+	<update id="updateCti" parameterType="map">
+		/* CTI 정보 수정 updateCti */
+		update genesys_info
+		<set>
+			<if test='number!=null and number!=""'>number = #{number},</if>
+			<if test='system_code!=null and system_code!=""'>system_code = #{system_code},</if>
+			<if test='ip!=null and ip!=""'>ip = #{ip},</if>
+			<if test='port!=null and port!=""'>port = #{port},</if>
+			backup_ip = #{backup_ip}
+			,tenant = #{tenant}
+		</set>
+		where number = #{org_number}
+		and system_code = #{org_system_code}
+	</update>
+	
+<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: DELETE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+	
+	<!-- CTI 정보 삭제 deleteCti -->
+	<delete id="deleteCti" parameterType="map">
+		/* CTI 정보 삭제 deleteCti */
+		delete from genesys_info 
+		where number = #{number}
+		and system_code = #{system_code}
+	</delete>
+	
+	<!-- CTI 모니터링 정보 삭제 deleteCtiStus -->
+	<delete id="deleteCtiStus" parameterType="map">
+		/* CTI 모니터링 정보 삭제 deleteCtiStus */
+		delete from genesys_info_status 
+		where number = #{number}
+		and system_code = #{system_code}
+	</delete>	
+	
+</mapper>
