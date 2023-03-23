@@ -25,120 +25,22 @@ $(function () {
 	*/
 	
 	var html = "";
-//	var fft_url = file_url.replace(".wav","."+fft_ext);
-	
+
 	//mp3 확장명으로 변경 - CJM(20190627)
 	file_url = file_url.substring(0, file_url.lastIndexOf("."))+".mp3";
 	var fft_url = file_url.substring(0, file_url.lastIndexOf("."))+"."+fft_ext;	
-	
-	//console.log("file_url : "+file_url);
-	//console.log("fft_url : "+fft_url);
-	//console.log("fft_ext : "+fft_ext);
-	
-	if(wave_type == "img") 
-	{
-		// get wave form image
-		html += "<wave style='position: relative; width: "+wave_w+"px; height: "+wave_h+"px; background-color: #171A20; display: block;'>";
-		html += "	<img id='wave_img' src='../rec_search/player_waveform.jsp?url=" + encodeURIComponent(fft_url) + "'/>";
-		html += "	<wave style='position: absolute; top: 0; left: 0; bottom: 0; width: 0; overflow: hidden; border-right: 1px solid #FF3131; box-sizing: border-box; background-color: #666666; opacity: 0.8;'></wave>";
-		html += "</wave>";
 
-		$("#waveform").html(html);
-	} 
-	else if(wave_type == "img2") 
-	{
-		// get wave data
-		$.ajax({
-			type: "GET",
-			url: fft_url,
-			//crossDomain: true,
-			async: false,
-			dataType: "text",
-			success:function(data){  
-				//console.log(data);
-				if(data.toLowerCase().indexOf("error") < 0) 
-				{
-					//wave_data = eval("[" + data + "]");
-					//wave_data = data.split(",");
-				} 
-				else 
-				{
-					alert("미디어 서버에 오류가 발생하였습니다.");
-					self.close();
-					return false;
-				}
-			},
-			error:function(req,status,err){
-				/*
-				console.log(status);
-				console.log(err);
-				console.log("code:"+req.status+"\n"+"message:"+req.responseText+"\n"+"error:"+err);
-				*/
-				alert("미디어 서버 연결에 실패했습니다.");
-				self.close();
-				return false;
-			}
-		});
-		
-		var wf_options = {
-				container: "#waveform",
-				waveColor: "#A8DBA8",
-				progressColor: "#FF8B00",
-				cursorColor: "#FF8B00",
-				cursorWidth: 1,	  
-				backgroundColor: "#4F4E65",
-				height: wave_h,
-				backend: "MediaElement"
-			};		
-		
-		// get wave form image
-		/*
-		html += "<wave style='position: relative; width: "+wave_w+"px; height: "+wave_h+"px; background-color: #171A20; display: block;'>";
-		html += "	<img id='wave_img' src='" + fft_url + "'/>";
-		html += "	<wave style='position: absolute; top: 0; left: 0; bottom: 0; width: 0; overflow: hidden; border-right: 1px solid #FF3131; box-sizing: border-box; background-color: #666666; opacity: 0.8;'></wave>";
-		html += "</wave>";
-		*/
-		//$("#waveform").html(html);
-	} 
-	else 
-	{
-		// get wave form data
-		$.ajax({
-			type: "GET",
-			url: fft_url,
-			async: false,
-			dataType: "text",
-			success:function(data){
-				//console.log(data);
-				if(data.toLowerCase().indexOf("error")<0) {
-					wave_data = eval("[" + data + "]");
-				} else {
-					alert("미디어 서버에 오류가 발생하였습니다.");
-					self.close();
-					return false;
-				}
-			},
-			error:function(req,status,err){
-				alert("미디어 서버 연결에 실패했습니다.");
-				self.close();
-				return false;
-			}
-		});
+	var wf_options = {
+		container: "#waveform",
+		waveColor: "#A8DBA8",
+		progressColor: "#FF8B00",
+		cursorColor: "#FF8B00",
+		cursorWidth: 1,
+		backgroundColor: "#4F4E65",
+		height: wave_h,
+		backend: "MediaElement"
+	};
 
-		// wave form
-		waveform = new Waveform({
-			container: document.getElementById("waveform"),
-			width: wave_w,
-			height: wave_h,
-			data: wave_data,
-			innerColor: "#00FFFF",
-			outerColor: "#171A20",
-			progressColor: "#808080",
-			cursorColor: "#FF3131",
-			interpolate: true
-		});
-	}	
-		
 	waveform = WaveSurfer.create(wf_options);
 	//waveform.load(file_url, wave_data);
 	//waveform.load(file_url2, wave_data);

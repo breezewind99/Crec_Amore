@@ -239,7 +239,7 @@
 		//oracle 사용자 정보 없을 경우 null 체크 - CJM(20190624)
 		argMap.put("user_id",CommonUtil.ifNull(curRec.get("user_id")+""));
 		argMap.put("user_name",CommonUtil.ifNull(curRec.get("user_name")+""));
-		argMap.put("local_no",curRec.get("local_no").toString());
+		argMap.put("local_no",CommonUtil.ifNull(curRec.get("local_no")+"").toString());
 		argMap.put("reason_code",reason_code);
 		argMap.put("reason_text",reason_text);
 		argMap.put("listen_src","");

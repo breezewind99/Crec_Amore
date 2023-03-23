@@ -13,7 +13,7 @@
 		String rec_filename = CommonUtil.getParameter("rec_filename");
 
 		// 파라미터 체크
-		if(!CommonUtil.hasText(rec_datm) || !CommonUtil.hasText(local_no) || !CommonUtil.hasText(rec_filename)) {
+		if(!CommonUtil.hasText(rec_datm) || !CommonUtil.hasText(rec_filename)) {
 			out.print(CommonUtil.getPopupMsg(CommonUtil.getErrorMsg("NO_PARAM"),"","close"));
 			return;
 		}

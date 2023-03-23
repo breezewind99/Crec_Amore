@@ -49,7 +49,7 @@ $(function()
 				}
 			},
 			error:function(req,status,err){
-				alert("미디어 서버 연결에 실패했습니다.");
+				alert("미디어 서버 연결에 실패했습니다.111");
 				self.close();
 				return false;
 			}
