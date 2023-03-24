@@ -17,11 +17,7 @@
     Logger logger = Logger.getLogger(ComLib.getFileName(request));
 
     // no cache
-    response.setHeader("Pragma", "no-cache");
-    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-    response.setHeader("Expires", "0");
-    // encoding
-    request.setCharacterEncoding("UTF-8");
+
 
 
 
@@ -41,6 +37,16 @@
 
     File file = new File(filename);
     FileInputStream fileIn = new FileInputStream(file);
+
+    response.setHeader("Access-Control-Allow-Headers","origin, x-requested-with, content-type, accept");
+    response.setHeader("Connection", "Close");
+    response.setHeader("Server", "Cnet Media WebServer");
+    response.setHeader("Accept-Ranges", "bytes");
+    response.setContentLength(fileIn.available());
+
+    // encoding
+    request.setCharacterEncoding("UTF-8");
+
     ServletOutputStream output = response.getOutputStream();
     byte[] outputByte = new byte[4096];
     while(fileIn.read(outputByte, 0, 4096) != -1)
