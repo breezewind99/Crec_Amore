@@ -29,7 +29,7 @@
     // set request
     CommonUtil.setReqest(request);
     CNCrypto aes = new CNCrypto("AES",CommonUtil.getEncKey());
-    String refer = URLDecoder.decode(CommonUtil.getParameter("refer"));
+    String refer = CommonUtil.getParameter("refer");
 
     String[] referfile = aes.Decrypt(refer.replace(".mp3","")).split("\\|");
     //logger.debug(temp);
@@ -37,7 +37,7 @@
 
     //out.println(filename);
     //http://127.0.0.1:8888/rec_search/audio.jsp?refer=vmJo1QWlgwQK7pYBJjp0ZsqYDQoCjOKruMBgiG//Qd4EZIk7qgGynWKEFyep36crRjM50P+KG6t2cpf3a/VpKCaDJqYq8PmBZ4y+iq4DR3oE3/JLv5u057LOLrp2+qPZpwRZcy3P2fAkW8ECAebyCQ==.mp3
-    String filename = "D:/amore/Record/" + referfile[2];
+    String filename = "D:/amore/Record/" + referfile[2] + ".mp3";
 
     File file = new File(filename);
     FileInputStream fileIn = new FileInputStream(file);
