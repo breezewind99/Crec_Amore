@@ -191,7 +191,7 @@
 			}
 			else 
 			{
-				file_url = Finals.MEDIA_SERVER_URL + "/?refer=" + aes.Encrypt(file_prefix + "|" + file_path) + "." + file_ext;
+				file_url = Finals.MEDIA_SERVER_URL + "?refer=" + URLEncoder.encode (aes.Encrypt(file_prefix + "|" + file_path)) + "." + file_ext;
 			}
 			//if (system_code.equals("01")) {
 				//file_url = Finals.MEDIA_SERVER_URL + "/media/mp3?refer=" + URLEncoder.encode(aes.Encrypt(file_prefix + "|" + file_path + ".mp3"), "UTF-8").toString();
