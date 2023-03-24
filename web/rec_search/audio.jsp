@@ -12,6 +12,7 @@
         , java.io.FileInputStream"
 %>
 <%@ page import="com.cnet.CnetCrypto.CNCrypto" %>
+<%@ page import="java.net.URLDecoder" %>
 <%
     Logger logger = Logger.getLogger(ComLib.getFileName(request));
 
@@ -28,7 +29,7 @@
     // set request
     CommonUtil.setReqest(request);
     CNCrypto aes = new CNCrypto("AES",CommonUtil.getEncKey());
-    String refer = CommonUtil.getParameter("refer");
+    String refer = URLDecoder.decode(CommonUtil.getParameter("refer"));
 
     String[] referfile = aes.Decrypt(refer.replace(".mp3","")).split("\\|");
     //logger.debug(temp);
