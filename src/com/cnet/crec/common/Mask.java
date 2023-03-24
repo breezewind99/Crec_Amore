@@ -94,6 +94,9 @@ public class Mask {
         if(phoneNum.substring(0,3).equals("+82")) {
             phoneNum = phoneNum.replace("+82","0");
         }
+        if(phoneNum.substring(0,7).equals("tel:+82")) {
+            phoneNum = phoneNum.replace("tel:+82","0");
+        }
         phoneNum = java.net.URLDecoder.decode(phoneNum);
         return phoneNum;
     }
