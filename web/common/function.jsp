@@ -12,6 +12,8 @@
 <%@ page import="com.cnet.crec.common.*"%>
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="java.io.IOException" %>
+<%@ page import="java.security.MessageDigest" %>
+<%@ page import="java.math.BigInteger" %>
 <%!
 	/**
 	 * 녹취파일 청취 URL 리턴
@@ -618,5 +620,20 @@
 
 		// 기본 자료가 없으면 첫번째 Column으로 처리
 		return ReturnValue + " " + Direction;
+	}
+
+	public static String encryptSHA512(String input){
+
+		String toReturn = null;
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-512");
+			digest.reset();
+			digest.update(input.getBytes("utf8"));
+			toReturn = String.format("%0128x", new BigInteger(1, digest.digest()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return toReturn;
 	}
 %>
