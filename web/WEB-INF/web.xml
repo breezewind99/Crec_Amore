@@ -51,7 +51,11 @@
 	</error-page>  
   
 	<!-- session config -->
-	<session-config>  
+	<session-config>
+		<cookie-config>
+			<secure>true</secure>
+			<http-only>true</http-only>
+		</cookie-config>
 		<!-- Default to 30 minute session timeouts -->
 		<session-timeout>30</session-timeout>
 	</session-config>
@@ -87,14 +91,14 @@
 	<distributable/>
 	
 	<!-- filter - CJM(20180911) -->
-<!--	<filter>-->
-<!--		<filter-name>XSS</filter-name>-->
-<!--		<filter-class>com.cnet.crec.util.CrossScriptingFilter</filter-class>-->
-<!--	</filter>-->
-<!--	<filter-mapping>-->
-<!--		<filter-name>XSS</filter-name>-->
-<!--		<url-pattern>/*</url-pattern>-->
-<!--	</filter-mapping>-->
+	<filter>
+		<filter-name>XSS</filter-name>
+		<filter-class>com.cnet.crec.util.CrossScriptingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XSS</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 	<filter>
 		<filter-name>CrossDomainFilter</filter-name>
