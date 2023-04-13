@@ -30,10 +30,9 @@ public class RSA
 	  } 
 	  catch(NoSuchAlgorithmException e) 
 	  {
-		 e.printStackTrace();
 		 return null;
 	  } //RSA키 제네레이터 생성
-	  generator.initialize(1024);	//키 사이즈
+	  generator.initialize(2048);	//키 사이즈
 	  
 	  KeyPair keyPair = generator.genKeyPair();
 	  
@@ -44,7 +43,6 @@ public class RSA
 	  } 
 	  catch(NoSuchAlgorithmException e) 
 	  {
-		 e.printStackTrace();
 		 return null;
 	  }
 	  
@@ -58,7 +56,6 @@ public class RSA
 	  } 
 	  catch(InvalidKeySpecException e) 
 	  {
-		 e.printStackTrace();
 		 return null;
 	  }
 	  
@@ -93,7 +90,6 @@ public class RSA
 	  } 
 	  catch(Exception e) 
 	  {
-		 e.printStackTrace();
 		 result = false;
 	  }
 		

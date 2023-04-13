@@ -67,8 +67,7 @@
 		<mapper resource="sqlmap/postgre/rec_search/rec_search_download.xml"/>
 		<mapper resource="sqlmap/postgre/rec_search/rec_memo.xml"/>
 		<mapper resource="sqlmap/postgre/rec_search/rec_marking.xml"/>
-		<mapper resource="sqlmap/postgre/rec_search/mon_db.xml"/>
-		
+
 		<mapper resource="sqlmap/postgre/log_hist/hist_login.xml"/>
 		<mapper resource="sqlmap/postgre/log_hist/hist_listen.xml"/>
 		<mapper resource="sqlmap/postgre/log_hist/hist_down.xml"/>

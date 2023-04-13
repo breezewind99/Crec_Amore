@@ -1,5 +1,6 @@
 package com.cnet.crec.util;
 
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -384,13 +385,10 @@ public class CommonUtil {
 	 * @return
 	 */
 	public static String getRandomNumber(String format) {
-		double seed = Math.pow(10, format.length());
 
+		SecureRandom random = new SecureRandom(); // Compliant for security-sensitive use cases
 		// random 숫자 발생
-		double n = (seed * Math.random()) + 1;
-
-		// 반올림하면서 자릿수가 늘어나는것을 막기 위해 - 1.5처리.
-		n = n - 1.5;
+		double n = random.nextDouble();
 
 		// 포맷 설정
 		DecimalFormat df = new DecimalFormat(format) ;
@@ -892,7 +890,7 @@ public class CommonUtil {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+
 		}
 		
 	}

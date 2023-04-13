@@ -19,7 +19,6 @@ public class Propertie {
 
             props.load(resource);
         } catch (IOException ex) {
-            ex.printStackTrace();
             props = null;
         } finally {
             if (fs != null) {
@@ -42,7 +41,6 @@ public class Propertie {
         }
 
         catch (IOException ex) {
-            ex.printStackTrace();
             props = null;
         } finally {
             if (fs != null) {

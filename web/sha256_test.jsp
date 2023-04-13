@@ -2,6 +2,7 @@
 <%@ include file="/common/common.jsp" %>
 <%@ include file="/common/function.jsp" %>
 <%
+
 	out.print("Login Sha512 PW Check" +"<br>");
 	out.print("+==============================================================+" +"<br>");
 	out.print("|" +"<br>");
