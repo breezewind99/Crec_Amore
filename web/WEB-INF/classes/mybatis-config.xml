@@ -65,6 +65,7 @@
 		
 		<mapper resource="sqlmap/postgre/rec_search/rec_search.xml"/>
 		<mapper resource="sqlmap/postgre/rec_search/rec_search_download.xml"/>
+		<mapper resource="sqlmap/postgre/rec_search/retire.xml"/>
 		<mapper resource="sqlmap/postgre/rec_search/rec_memo.xml"/>
 		<mapper resource="sqlmap/postgre/rec_search/rec_marking.xml"/>
 

@@ -20,18 +20,17 @@
 		// get parameter
 		String rec_datm = CommonUtil.getParameter("rec_datm");
 		String rec_keycode = CommonUtil.getParameter("rec_keycode");
-		String seq_no = CommonUtil.getParameter("seq");
 		String user_id = CommonUtil.getParameter("user_id");
 		String user_name = CommonUtil.getParameter("user_name");
 		String reason_code = CommonUtil.getParameter("reason_code");
 		String reason_text = CommonUtil.getParameter("reason_text");
 		String rec_seq = CommonUtil.getParameter("rec_seq");
 
-		
+
 		// 파라미터 체크
 		if(!CommonUtil.hasText(reason_code) && !CommonUtil.hasText(reason_text))
 		{
-			out.print("<script>location.replace('player_reason.jsp?rec_datm="+ rec_datm +"&rec_keycode="+ rec_keycode +"&user_id="+ user_id +"&user_name="+ user_name +"&rec_seq="+ rec_seq +"')</script>");
+			out.print("<script>location.replace('player_rn.jsp?rec_datm="+ rec_datm +"&rec_keycode="+ rec_keycode +"&user_id="+ user_id +"&user_name="+ user_name +"&rec_seq="+ rec_seq +"')</script>");
 			return;
 		}
 		
@@ -39,7 +38,6 @@
 		Map<String, Object> curdata = new HashMap();
 
 		argMap.clear();
-		argMap.put("seq_no",seq_no);
      	argMap.put("rec_keycode",rec_keycode);
      	argMap.put("rec_date",rec_datm);
 				
@@ -99,7 +97,7 @@
 		// 청취 URL 생성
 		String file_url = getListenURL2("LISTEN", curdata, logger,"");
 		String file_url2 = getListenURL2("LISTEN", curdata, logger);
-
+		String local_no = CommonUtil.ifNull(curdata.get("local_no")+"").toString();
 		String fft_ext = ("88".equals(curdata.get("system_code").toString())) ? "nmf" : "fft";
 		if(file_url == null || "".equals(file_url)) 
 		{
@@ -121,7 +119,7 @@
 		argMap.put("user_id",curdata.get("user_id").toString());
 		argMap.put("user_name",curdata.get("user_name").toString());
 		//argMap.put("local_no",station);
-		argMap.put("local_no",curdata.get("local_no").toString());
+		argMap.put("local_no",CommonUtil.ifNull(curdata.get("local_no")+"").toString());
 		argMap.put("listen_src","O");
 		argMap.put("reason_code",reason_code);
 		argMap.put("reason_text",reason_text);
@@ -171,7 +169,7 @@
 	var file_url2 = "<%=file_url2%>";
 	var fft_ext = "<%=fft_ext%>";
 	var rec_datm = "<%=rec_datm%>";
-	var local_no = "<%=curdata.get("local_no").toString()%>";
+	var local_no = "<%=local_no%>";
 	var rec_filename = "<%=curdata.get("rec_filename").toString()%>";
 
 	//var wave_type = "canvas";

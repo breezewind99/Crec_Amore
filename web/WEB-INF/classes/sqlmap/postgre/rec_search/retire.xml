@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="rec_search_download">
+<mapper namespace="retire">
 
 <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INCLUDE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
 
 <!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  QUERY  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
     <!-- 녹취이력 count selectCount -->
-    <insert id="insertDownload" parameterType="map">
+    <insert id="insertRetire" parameterType="map">
         /* 상담APP 연동페이지 selectRelationList2 */
-        insert into tbl_record_download
-        select
-            *
-        from tbl_record
-        where 1=1
-          and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
-		and rec_keycode = #{rec_keycode}
+        insert into tbl_retire(rec_datm, cust_tel, cust_id)
+        values(#{rec_datm}, #{cust_tel}, #{cust_id})
     </insert>
 </mapper>
