@@ -703,10 +703,11 @@ public class CommonUtil {
 				return getPopupMsg(getErrorMsg("NO_LOGIN"),"../index.jsp",type);
 			}
 			// 로그인 아이피 체크
-			if(!hasText((String) session.getAttribute("login_ip")) || !request.getRemoteAddr().equals((String) session.getAttribute("login_ip"))) 
-			{
-				return getPopupMsg(getErrorMsg("ERR_WRONG"),"../index.jsp",type);
-			}
+			// 로그인 IP가 계속 변경되서 중지
+//			if(!hasText((String) session.getAttribute("login_ip")) || !request.getRemoteAddr().equals((String) session.getAttribute("login_ip")))
+//			{
+//				return getPopupMsg(getErrorMsg("ERR_WRONG"),"../index.jsp",type);
+//			}
 			// 메뉴권한 체크
 			if(hasText(menu)) {
 				boolean flag = false;

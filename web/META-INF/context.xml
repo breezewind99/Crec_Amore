@@ -1,44 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/">
-    <!-- MSSQL MASTER DB
-    <Resource name="jdbc/crec_master" driverClassName="net.sourceforge.jtds.jdbc.Driver" username="sa" password="~!cnet2580!~"
-              url="jdbc:jtds:sqlserver://112.217.73.70:1433/crec_ezwel;useUnicode=false;SENDSTRINGPARAMETERSASUNICODE=false;uselobs=false;loginTimeout=60;socketTimeout=60;"
-              auth="Container" initialSize="10" removeAbandonedTimeout="60" maxActive="100" maxWait="10000" minIdle="10" removeAbandoned="true" validationInterval="30000"
-              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" jmxEnabled="true" logAbandoned="true" minEvictableIdleTimeMillis="60000" type="javax.sql.DataSource"
-              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
-              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000" validationQuery="SELECT 1"/>
-    -->
-    <!-- ORACLE MASTER DB -->
-<!--    <Resource name="jdbc/crec_master" auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"-->
-<!--              maxActive="100" maxIdle="30" maxWait="10000"  password="cnet2580" type="javax.sql.DataSource" url="jdbc:oracle:thin:@10.144.31.26:1521:RECDB" username="cnet"-->
-<!--              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000" validationQuery="SELECT 1 FROM DUAL"/>-->
-    <!-- ORACLE SLAVE DB -->
-    <!-- 사무실 ORACLE MASTER DB -->
-<!--    <Resource name="jdbc/crec_master" auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"-->
-<!--              maxActive="100" maxIdle="30" maxWait="10000"  password="cnet2580" type="javax.sql.DataSource" url="jdbc:oracle:thin:@112.217.73.70:1521:ORCL" username="LOTTEHS"-->
-<!--              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000" validationQuery="SELECT 1 FROM DUAL"/>-->
-    <!-- ORACLE SLAVE DB -->
-
-    <!-- 용인 테스트 MASTER DB -->
-<!--    <Resource name="jdbc/crec_master" auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"-->
-<!--              maxActive="100" maxIdle="30" maxWait="10000"  password="cnet2580" type="javax.sql.DataSource" url="jdbc:oracle:thin:@10.144.35.26:1521:RECDB" username="cnet"-->
-<!--              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000" validationQuery="SELECT 1 FROM DUAL"/>-->
-    <!-- ORACLE SLAVE DB -->
     <!-- POSTGRE MASTER DB -->
-<!--    <Resource-->
-<!--            auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"-->
-<!--            initialSize="10" jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"-->
-<!--            jmxEnabled="true" logAbandoned="true" maxActive="100" maxWait="10000" minEvictableIdleTimeMillis="60000" minIdle="10"-->
-<!--            name="jdbc/crec_master" password="rhrortkdekaappDev!01" removeAbandoned="true" removeAbandonedTimeout="60"-->
-<!--            testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000"-->
-<!--            type="javax.sql.DataSource" url="jdbc:postgresql://ctdev-cctrc-pg-01.caizqquwbw1r.ap-northeast-2.rds.amazonaws.com:5543/cctrcdev?currentSchema=cctrec"-->
-<!--            username="cctrecapp" validationInterval="30000" validationQuery="SELECT 1"/>-->
-    <Resource auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
-              initialSize="10" maxActive="100" maxWait="10000" minIdle="10" jmxEnabled="true"
-              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" validationInterval="30000" validationQuery="SELECT 1"
-              logAbandoned="true" removeAbandoned="true" removeAbandonedTimeout="60"
-              minEvictableIdleTimeMillis="60000" timeBetweenEvictionRunsMillis="30000"
-              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
-              type="javax.sql.DataSource" url="jdbc:postgresql://192.168.0.47:5432/crec_amore"
-              name="jdbc/crec_master" username="postgres" password="~!cnet2580!~"/>
+    <Resource
+            auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+            initialSize="10" jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+            jmxEnabled="true" logAbandoned="true" maxActive="100" maxWait="10000" minEvictableIdleTimeMillis="60000" minIdle="10"
+            name="jdbc/crec_master" password="rhrortkdekaappDev!01" removeAbandoned="true" removeAbandonedTimeout="60"
+            testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000"
+            type="javax.sql.DataSource" url="jdbc:postgresql://ctdev-cctrc-pg-01.caizqquwbw1r.ap-northeast-2.rds.amazonaws.com:5543/cctrcdev?currentSchema=cctrec"
+            username="cctrecapp" validationInterval="30000" validationQuery="SELECT 1"/>
+<!--    <Resource auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"-->
+<!--              initialSize="10" maxActive="100" maxWait="10000" minIdle="10" jmxEnabled="true"-->
+<!--              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" validationInterval="30000" validationQuery="SELECT 1"-->
+<!--              logAbandoned="true" removeAbandoned="true" removeAbandonedTimeout="60"-->
+<!--              minEvictableIdleTimeMillis="60000" timeBetweenEvictionRunsMillis="30000"-->
+<!--              jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"-->
+<!--              type="javax.sql.DataSource" url="jdbc:postgresql://192.168.0.47:5432/crec_amore"-->
+<!--              name="jdbc/crec_master" username="postgres" password="~!cnet2580!~"/>-->
 </Context>

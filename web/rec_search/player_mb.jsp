@@ -46,7 +46,7 @@
 	-->
 	<div class="jp-no-solution">
 		<span>Update Required</span>
-		To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank" rel="noopener">Flash plugin</a>.
 	</div>
 </div>
 <!--플레이어 영역 끝-->
