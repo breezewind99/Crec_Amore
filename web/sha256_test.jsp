@@ -1,3 +1,4 @@
+<%@ page import="com.cnet.crec.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/common.jsp" %>
 <%@ include file="/common/function.jsp" %>
@@ -17,4 +18,8 @@
 		out.print("login ip : " + login_ip + ", dbIpAddr : " + dbIpAddr);
 		logger.info ("login ip : " + login_ip + ", dbIpAddr : " + dbIpAddr);
 	}
+
+	AecEncryption.decryptFile("c:\\project\\test.zip.enc","c:\\project\\test.zip.decweb");
+
+	S#
 %>	

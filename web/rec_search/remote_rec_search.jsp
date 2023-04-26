@@ -227,7 +227,7 @@
 			if(item.containsKey("n_cust_tel") && item.get("n_cust_tel") != null){
 				String temp =  "";
 				temp = Mask.getCuttingPhoneNum(item.get("n_cust_tel").toString().trim());
-
+				temp = Mask.getMaskedPhoneNum2(item.get("n_cust_tel").toString().trim());
 				item.put("n_cust_tel", "<img class='copy' src='../img/icon/ico_memo.png' data-clipboard-text='" + item.get("n_cust_tel").toString().trim() + "' style='margin-left: 5px; cursor: pointer;'/> " + temp);
 			}
 			if(item.containsKey("n_rec_keycode") && item.get("n_rec_keycode") != null){
@@ -245,12 +245,14 @@
 				item.put("n_rec_filename", "<img class='copy' src='../img/icon/ico_memo.png' data-clipboard-text='" + item.get("n_rec_filename").toString().trim() + "' style='margin-left: 5px; cursor: pointer;'/> " + temp);
 			}
 			if(item.containsKey("n_user_name") && item.get("n_user_name") != null){
-//				String temp =  Mask.getMaskedName(item.get("n_user_name"));
-				item.put("n_user_name", item.get("n_user_name"));
+				String temp =  Mask.getMaskedName(item.get("n_user_name"));
+//				item.put("n_user_name", item.get("n_user_name"));
+				item.put("n_user_name", temp);
 			}
 			if(item.containsKey("user_name") && item.get("user_name") != null){
-//				String temp =  Mask.getMaskedName(item.get("user_name"));
-				item.put("user_name", item.get("user_name"));
+				String temp =  Mask.getMaskedName(item.get("user_name"));
+//				item.put("user_name", item.get("user_name"));
+				item.put("user_name", temp);
 			}
 			if(item.containsKey("v_url"))
 			{

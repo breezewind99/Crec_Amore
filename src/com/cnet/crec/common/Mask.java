@@ -40,6 +40,38 @@ public class Mask {
         return phoneNum;
     }
 
+    public static String getMaskedPhoneNum2(Object temp) {
+        if (temp == null) return "";
+        String phoneNum = temp.toString();
+        String regex = "(\\d{2,3})(\\d{3,4})(\\d{4})$";
+        //String regex = "(\\d{2,3})-?(\\d{3,4})-?(\\d{4})$";		//휴대폰번호 '-' 포함
+        Matcher matcher = Pattern.compile(regex).matcher(phoneNum);
+        if (matcher.find()) {
+            String replaceTarget1 = "****";
+            String replaceTarget2 = matcher.group(2);
+            String replaceTarget3 = "****";
+
+
+            return replaceTarget1 + "-" + replaceTarget2 + "-" + replaceTarget3;
+        }
+        regex = "(\\d{1,4})(\\d{4})$";
+        matcher = Pattern.compile(regex).matcher(phoneNum);
+        if (matcher.find()) {
+            String replaceTarget1 = "";
+//            if (matcher.group(1).length() == 4) {
+//                replaceTarget1 = matcher.group(1).substring(0,2) + "**";
+//            } else if (matcher.group(1).length() == 3) {
+//                replaceTarget1 = matcher.group(1).charAt(0) + "**";
+//            } else {
+//                replaceTarget1 = matcher.group(1);
+//            }
+            replaceTarget1 = matcher.group(1);
+            String replaceTarget2 = "****";
+            return replaceTarget1 + "-" + replaceTarget2;
+        }
+        return phoneNum;
+    }
+
     // 이름 중간 마스킹
     public static String getMaskedName(Object temp) {
 
@@ -53,7 +85,6 @@ public class Mask {
         maskedName = name;
 
         /*보안 심의에서 제외 처리 요청*/
-        /*
         if(!name.equals("") || name != null || name.equals("null")){
             if(name.length() > 1){
                 firstName = name.substring(0, 1);
@@ -77,7 +108,7 @@ public class Mask {
                 maskedName = name;
             }
         }
-        */
+
         return maskedName;
     }
 

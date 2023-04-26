@@ -34,17 +34,11 @@
 		{
 			for(Map<String, Object> item : fld_list) 
 			{
-				
 				String sort_flag = item.get("order_used").equals("1") ? "true" : "false";
 				String min_width = CommonUtil.hasText(item.get("conf_etc").toString()) ? item.get("conf_etc").toString() : "50";
 				//녹취 다운로드 여부 정보 - CJM(20181218)
 				String down_perm = ("N".equals(_REC_DOWN_YN.toUpperCase()) && "v_download".equals(item.get("result_value").toString())) ? ", hidden : true" : "";
-				
-				// 리스트 설정에서 hidden 개념 삭제
-				//if(!"hidden".equals(item.get("result_value"))) {
-					//htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+" }\n";
-					htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+""+down_perm+" }\n";
-				//}
+				htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+""+down_perm+" }\n";
 			}
 		}
 		
@@ -126,7 +120,7 @@
 		});
 	
 		// 페이지 id, 페이징 사용여부, 엑셀다운로드 사용여부, 신규등록 사용여부, 수정 사용여부
-		var baseObj = getBaseGridOption("rec_search", "Y", "Y", "N", "N");
+		var baseObj = getBaseGridOption("rec_search", "Y", "N", "N", "N");
 		// toolbar button add
 		baseObj.toolbar.items.push(
 			{type:"button", icon:"ui-icon-gear", label:"설정", style:"float:right; margin-right:5px;", attr:"data-toggle='modal'",  listeners:[{"click":function() {popResultConfig('R');}}]} ,

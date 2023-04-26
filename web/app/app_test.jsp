@@ -87,11 +87,17 @@
 	<div class="loginRadius1">녹취관리 시스템 <span style="float:right; font-size: 14px;"><img alt='image' src='../img/logo/main_title_login.png' /></span></div>
 	<div class="loginRadius2">
 		<div class="form-box1">
-			<form id="app" class="form-horizontal" method="post" >
+			<form id="app" class="form-horizontal" method="post" action="player_rn.jsp">
+
+				<input name="conv_id" value="85447111-e789-4c5a-9bce-abf31bead0f5">
+				<input name="rec_datm" value="2023-04-18">
+				<input name="user_id" value="test">
+				<input name="user_name" value="test">
 				<div class="space01">APP TEST</div>
 				<button type="button" name="btn_mon" class="btn btn-primary btn-sm">모니터링</button>
 				<button type="button" name="btn_player" class="btn btn-primary btn-sm">청취</button>
 				<button type="button" name="btn_clientApi" class="btn btn-primary btn-sm">연동 API</button>
+				<button type="submit" name="btn_clientListen" class="btn btn-primary btn-sm">청취 테스트</button>
 			</form>
 		</div>
 	</div>

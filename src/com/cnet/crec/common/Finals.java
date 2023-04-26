@@ -20,6 +20,7 @@ public class Finals
 
 	//public static final String	MAIN_TITLE_TOP   = "<span style='font-size:24px;font-weight:bold;'>CNETTECH</span>";
 
+	public static final String		S3_Bucket_Name   = pros.getProperty("S3_BUCKET_NAME","ctdev-cct-upload");
 	//백업 DB 존재 유무
 //	public static final boolean		isExistBackupServer = false;
 	public static final boolean		isExistBackupServer = Boolean.parseBoolean(pros.getProperty("isExistBackupServer"));

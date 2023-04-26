@@ -126,7 +126,7 @@
 		});
 	
 		// 페이지 id, 페이징 사용여부, 엑셀다운로드 사용여부, 신규등록 사용여부, 수정 사용여부
-		var baseObj = getBaseGridOption("rec_search", "Y", "Y", "N", "N");
+		var baseObj = getBaseGridOption("rec_search", "Y", "N", "N", "N");
 		// toolbar button add
 		baseObj.toolbar.items.push(
 			{type:"button", icon:"ui-icon-gear", label:"설정", style:"float:right; margin-right:5px;", attr:"data-toggle='modal'",  listeners:[{"click":function() {popResultConfig('R');}}]} ,
