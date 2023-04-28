@@ -1,13 +1,5 @@
 package com.cnet.crec.util;
 
-import com.sun.deploy.net.HttpResponse;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
 import java.io.*;
 
 import static com.cnet.crec.common.Finals.S3_Bucket_Name;

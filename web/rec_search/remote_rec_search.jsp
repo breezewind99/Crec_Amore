@@ -57,6 +57,13 @@
 		// tree에서 선택된 user id list
 		String user_list = CommonUtil.getParameter("user_list");
 
+
+		if(!CommonUtil.hasText(cust_tel))
+		{
+			out.print(CommonUtil.getPopupMsg(CommonUtil.getErrorMsg("NO_PARAM"),"","close"));
+			return;
+		}
+
 		cur_page = (cur_page<1) ? 1 : cur_page;
 		String tmp_sort_idx = ("v_".equals(CommonUtil.leftString(sort_idx, 2)) || "n_".equals(CommonUtil.leftString(sort_idx, 2))) ? sort_idx.substring(2) : sort_idx;
 		sort_dir = ("down".equals(sort_dir)) ? "desc" : "asc";

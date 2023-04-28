@@ -47,9 +47,9 @@ public class Mask {
         //String regex = "(\\d{2,3})-?(\\d{3,4})-?(\\d{4})$";		//휴대폰번호 '-' 포함
         Matcher matcher = Pattern.compile(regex).matcher(phoneNum);
         if (matcher.find()) {
-            String replaceTarget1 = "****";
-            String replaceTarget2 = matcher.group(2);
-            String replaceTarget3 = "****";
+            String replaceTarget1 = matcher.group(1);
+            String replaceTarget2 = "****";
+            String replaceTarget3 = matcher.group(3);
 
 
             return replaceTarget1 + "-" + replaceTarget2 + "-" + replaceTarget3;
@@ -65,8 +65,8 @@ public class Mask {
 //            } else {
 //                replaceTarget1 = matcher.group(1);
 //            }
-            replaceTarget1 = matcher.group(1);
-            String replaceTarget2 = "****";
+            replaceTarget1 = "****";
+            String replaceTarget2 = matcher.group(2);
             return replaceTarget1 + "-" + replaceTarget2;
         }
         return phoneNum;

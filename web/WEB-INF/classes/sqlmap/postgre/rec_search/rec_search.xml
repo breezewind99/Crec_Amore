@@ -375,10 +375,10 @@
 				and local_no between #{local_no1} and #{local_no2}
 			</when>
 			<when test='local_no1!=null and local_no1!="" and (local_no2==null or local_no2=="")'>
-				and local_no like #{local_no1} || '%'
+				and local_no = #{local_no1}
 			</when>
 			<when test='(local_no1==null or local_no1=="") and local_no2!=null and local_no2!=""'>
-				and local_no like #{local_no2} || '%'
+				and local_no = #{local_no2}
 			</when>
 		</choose>
 		<if test='bpart_code!=null and bpart_code!=""'>
@@ -394,25 +394,25 @@
 		and rec_inout = #{rec_inout}
 		</if>
 		<if test='user_id!=null and user_id!=""'>
-		and user_id like #{user_id} || '%'
+		and user_id = #{user_id}
 		</if>
 		<if test='user_name!=null and user_name!=""'>
-		and user_name like #{user_name} || '%'
+		and user_name = #{user_name}
 		</if>
 		<if test='cust_id!=null and cust_id!=""'>
-		and cust_id like #{cust_id} || '%'
+		and cust_id = #{cust_id}
 		</if>
 		<if test='cust_name!=null and cust_name!=""'>
-		and cust_name like #{cust_name} || '%'
+		and cust_name = #{cust_name}
 		</if>
 		<if test='cust_tel!=null and cust_tel!=""'>
-		and cust_tel like '%' || #{cust_tel} || '%'
+		and cust_tel = #{cust_tel}
 		</if>
 		<if test='rec_keycode!=null and rec_keycode!=""'>
 		and rec_keycode = #{rec_keycode}
 		</if>
 		<if test='rec_filename!=null and rec_filename!=""'>
-		and rec_filename like #{rec_filename} || '%'
+		and rec_filename = #{rec_filename}
 		</if>
 		<if test='rec_abort_code!=null and rec_abort_code!=""'>
 		and rec_abort_code = #{rec_abort_code}
@@ -554,10 +554,10 @@
 					and local_no between #{s.local_no1} and #{s.local_no2}
 				</when>
 				<when test='s.local_no1!=null and s.local_no1!="" and (s.local_no2==null or s.local_no2=="")'>
-					and local_no like #{s.local_no1} || '%'
+					and local_no = #{s.local_no1}
 				</when>
 				<when test='(s.local_no1==null or s.local_no1=="") and s.local_no2!=null and s.local_no2!=""'>
-					and local_no like #{s.local_no2} || '%'
+					and local_no = #{s.local_no2}
 				</when>		
 			</choose>	
 			<if test='s.bpart_code!=null and s.bpart_code!=""'>
@@ -573,26 +573,26 @@
 			and rec_inout = #{s.rec_inout}
 			</if>			
 			<if test='s.user_id!=null and s.user_id!=""'>
-			and user_id like '%' || #{s.user_id} || '%'
+			and user_id = #{s.user_id}
 			</if>
 			<if test='s.user_name!=null and s.user_name!=""'>
-			and user_name like '%' || #{s.user_name} || '%'
+			and user_name = #{s.user_name}
 			</if>	
 			<if test='s.cust_id!=null and s.cust_id!=""'>
-			and cust_id like '%' || #{s.cust_id} || '%'
+			and cust_id = #{s.cust_id}
 			</if>	
 			<if test='s.cust_name!=null and s.cust_name!=""'>
-			and cust_name like '%' || #{s.cust_name} || '%'
+			and cust_name = #{s.cust_name}
 			</if>	
 			<if test='s.cust_tel!=null and s.cust_tel!=""'>
-			and cust_tel like '%' ||  #{s.cust_tel} || '%'
+			and cust_tel = #{s.cust_tel}
 			<!--and cust_tel=encode(encrypt(convert_to(#{s.cust_tel},'utf8'), 'cnet', 'aes'), 'hex')-->
 			</if>
 			<if test='s.rec_keycode!=null and s.rec_keycode!=""'>
 			and rec_keycode = #{s.rec_keycode}
 			</if>
 			<if test='s.rec_filename!=null and s.rec_filename!=""'>
-			and rec_filename like #{s.rec_filename} || '%'
+			and rec_filename = #{s.rec_filename}
 			</if>
 			<if test='s.rec_abort_code!=null and s.rec_abort_code!=""'>
 			and rec_abort_code = #{s.rec_abort_code}
@@ -616,7 +616,7 @@
 			and custom_fld_03 = #{s.custom_fld_03}
 			</if>
 			<if test='s.custom_fld_04!=null and s.custom_fld_04!=""'>
-		 	and custom_fld_04 like '%' || #{s.custom_fld_04} || '%'
+		 	and custom_fld_04 = #{s.custom_fld_04}
 			</if>
 		<if test='s.custom_fld_05!=null and s.custom_fld_05!=""'>
 		 	and custom_fld_05 = #{s.custom_fld_05}
