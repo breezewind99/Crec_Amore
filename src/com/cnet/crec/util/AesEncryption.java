@@ -6,7 +6,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AecEncryption {
+public class AesEncryption {
     private static final byte[] KEY = {
             // AES256 키 (32바이트)
             // 키는 암호화 및 복호화에 사용됩니다.

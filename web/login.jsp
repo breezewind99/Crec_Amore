@@ -1,7 +1,8 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/common.jsp" %>
+<%@ include file="/common/function.jsp" %>
 <%@ page import="javax.servlet.http.Cookie"%>
-<%@ page import="com.cnet.CnetCrypto.CNCrypto"%>
+<%@ page import="com.cnet.crec.util.AesEncryption"%>
 <%@ page import="com.cnet.crec.util.SessionListener"%>
 <%@ page import="com.cnet.crec.util.RSA"%>
 <%@ page import="java.security.PrivateKey"%>
@@ -73,8 +74,9 @@
 		}
 
 		// 비밀번호 암호화
-		CNCrypto sha256 = new CNCrypto("HASH",CommonUtil.getEncKey());
-		String enc_login_pass = sha256.Encrypt(login_pass);
+//		CNCrypto sha256 = new CNCrypto("HASH",CommonUtil.getEncKey());
+//		String enc_login_pass = sha256.Encrypt(login_pass);
+		String enc_login_pass = encryptSHA512(login_pass);
 
 		/*
 			3. 로그인 결과 신규 등록 (금일)
@@ -173,22 +175,22 @@
 			*/
 			//oracle 사용자 정보 없을 경우 null 체크 - CJM(20190823)
 			//String pass_upd_date = data.get("pass_upd_date").toString();
-			String passUpdDate = CommonUtil.ifNull(data.get("pass_upd_date")+"");
-			if(!CommonUtil.hasText(passUpdDate))
-			{
-				out.print("{\"code\":\"PASS\", \"msg\":\"최초 로그인하시는 경우 비밀번호 변경 후 로그인이 가능합니다.\"}");
-				return;
-			}
+//			String passUpdDate = CommonUtil.ifNull(data.get("pass_upd_date")+"");
+//			if(!CommonUtil.hasText(passUpdDate))
+//			{
+//				out.print("{\"code\":\"PASS\", \"msg\":\"최초 로그인하시는 경우 비밀번호 변경 후 로그인이 가능합니다.\"}");
+//				return;
+//			}
 
 			/*
 				12. 비밀번호 만료
 			*/
-			passCheckDay = Integer.parseInt(data.get("pass_check_day").toString());
-			if(passCheckDay < 0) 
-			{
-				out.print("{\"code\":\"PASS\", \"msg\":\"비밀번호 사용일이 만료되었습니다.\"}");
-				return;
-			}
+//			passCheckDay = Integer.parseInt(data.get("pass_check_day").toString());
+//			if(passCheckDay < 0)
+//			{
+//				out.print("{\"code\":\"PASS\", \"msg\":\"비밀번호 사용일이 만료되었습니다.\"}");
+//				return;
+//			}
 		}
 		
 		/*
@@ -285,12 +287,12 @@
 			20. 비밀번호 만료일 노출(만료일 임박시 15일 기준)
 				로그인은 정상적으로 알림 메시지 노출 필요.
 		*/
-		String passExpireDate = CommonUtil.ifNull(data.get("pass_expire_date")+"");
-		if(passCheckDay < 16 )
-		{
-			out.print("{\"code\":\"PASSCHK\",\"msg\":\"비밀번호 만료일이 [" + passExpireDate + "] 입니다.\\n비밀번호를 변경하시기 바랍니다\"}");
-			return;
-		}
+//		String passExpireDate = CommonUtil.ifNull(data.get("pass_expire_date")+"");
+//		if(passCheckDay < 16 )
+//		{
+//			out.print("{\"code\":\"PASSCHK\",\"msg\":\"비밀번호 만료일이 [" + passExpireDate + "] 입니다.\\n비밀번호를 변경하시기 바랍니다\"}");
+//			return;
+//		}
 		
 		if(Finals.isDev){session.setMaxInactiveInterval(60*60*24);}//초단위(24시간)
 

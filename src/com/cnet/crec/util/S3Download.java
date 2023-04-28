@@ -26,7 +26,7 @@ public class S3Download {
 
             File recordFile = new File( "d:\\temp\\" + FileName + ".tmp");
             if (recordFile.exists()) {
-                AecEncryption.decryptFile("d:\\temp\\" + FileName + ".tmp", "d:\\temp\\" + FileName);
+                AesEncryption.decryptFile("d:\\temp\\" + FileName + ".tmp", "d:\\temp\\" + FileName);
             }
 
             return recordFile.exists();

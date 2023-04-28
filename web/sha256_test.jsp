@@ -19,7 +19,5 @@
 		logger.info ("login ip : " + login_ip + ", dbIpAddr : " + dbIpAddr);
 	}
 
-	AecEncryption.decryptFile("c:\\project\\test.zip.enc","c:\\project\\test.zip.decweb");
-
-	S#
-%>	
+	//AecEncryption.decryptFile("c:\\project\\test.zip.enc","c:\\project\\test.zip.decweb");
+%>
