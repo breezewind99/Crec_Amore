@@ -41,7 +41,8 @@
 				htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+""+down_perm+" }\n";
 			}
 		}
-		
+		htmSearchListField += ",{ title: '다운로드', minWidth: 50, dataIndx: 'v_download', sortable: false }";
+
 		// config search select
 		List<Map<String, Object>> sel_list = db.selectList("rec_search.selectSearchConfig", confmap);
 	

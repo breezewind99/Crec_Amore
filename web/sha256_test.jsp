@@ -8,6 +8,7 @@
 	out.print("+==============================================================+" +"<br>");
 	out.print("|" +"<br>");
 	out.print("| Login Pw : 1111, sha512 pw : " + encryptSHA512("1111") +"<br>");
+	out.print("| Login Pw : cnet2580!, sha512 pw : " + encryptSHA512("cnet2580!") +"<br>");
 	out.print("|" +"<br>");
 	out.print("+==============================================================+" +"<br>");
 

@@ -20,11 +20,11 @@
 		db = new Db(true);
 
 		Map<String, Object> confMap = new HashMap<String, Object>();
-		List<Map<String, Object>> conf_list = db.selectList("download.selectList");
-		boolean bDownload = false;
-		for(Map<String, Object> item : conf_list) {
-			if (item.get("download_ip").toString().equals(request.getRemoteAddr().toString())) {bDownload=true;}
-		}
+//		List<Map<String, Object>> conf_list = db.selectList("download.selectList");
+		boolean bDownload = true;
+//		for(Map<String, Object> item : conf_list) {
+//			if (item.get("download_ip").toString().equals(request.getRemoteAddr().toString())) {bDownload=true;}
+//		}
 		if (!bDownload) {
 			out.print(CommonUtil.getPopupMsg("권한이 없습니다.","","close"));
 			return;
@@ -120,7 +120,7 @@
 		//argMap.put("dateStr", CommonUtil.getRecordTableNm(rec_datm));
 		argMap.put("dateStr", "");
 		argMap.put("rec_datm",rec_datm);
-		argMap.put("local_no",local_no);
+//		argMap.put("local_no",local_no);
 		argMap.put("rec_filename",rec_filename);
 
 		// 녹취이력 조회
@@ -134,6 +134,7 @@
 		// 녹취파일 경로 조회
 		//String file_url = getListenURL5("DOWN", data, logger);
 		String file_url = getListenURL5(extension, data, logger);
+		file_url = getListenURL2("LISTEN", data, logger, "");
 
 		if(file_url==null || "".equals(file_url)) 
 		{
@@ -265,7 +266,7 @@
 
 		// 다운로드 이력 저장
 		argMap.put("rec_datm",data.get("rec_datm").toString());
-		argMap.put("local_no",data.get("local_no").toString());
+//		argMap.put("local_no",data.get("local_no").toString());
 		argMap.put("rec_filename",data.get("rec_filename").toString());
 		argMap.put("login_id",_LOGIN_ID);
 		argMap.put("login_name",_LOGIN_NAME);

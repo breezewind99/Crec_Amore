@@ -6,6 +6,299 @@
 <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: INCLUDE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
 
 <!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  QUERY  ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  -->
+
+    <!-- 녹취이력 count selectCount -->
+    <select id="selectCount" parameterType="map" resultType="map">
+        /* 녹취이력 count selectCount */
+        select
+        count(*)::int as tot_cnt
+        ,ceil(count(*) / ${top_cnt}::float) as page_cnt
+        from tbl_record_download
+        where 1=1
+        and rec_datm between (#{rec_date1} || ' 00:00:00.000')::timestamp and (#{rec_date2} || ' 23:59:59.997')::timestamp
+        and rec_start_time between #{rec_start_time1}::time and #{rec_start_time2}::time
+        and rec_call_time between #{rec_call_time1}::time and #{rec_call_time2}::time
+        <if test='rec_succ_code!=null and rec_succ_code!=""'>
+            and rec_succ_code = #{rec_succ_code}
+        </if>
+        <if test='system_code!=null and system_code!=""'>
+            and system_code = #{system_code}
+        </if>
+        <choose>
+            <when test='local_no1!=null and local_no1!="" and local_no2!=null and local_no2!=""'>
+                and local_no between #{local_no1} and #{local_no2}
+            </when>
+            <when test='local_no1!=null and local_no1!="" and (local_no2==null or local_no2=="")'>
+                and local_no = #{local_no1}
+            </when>
+            <when test='(local_no1==null or local_no1=="") and local_no2!=null and local_no2!=""'>
+                and local_no = #{local_no2}
+            </when>
+        </choose>
+        <if test='bpart_code!=null and bpart_code!=""'>
+            and bpart_code = #{bpart_code}
+        </if>
+        <if test='mpart_code!=null and mpart_code!=""'>
+            and mpart_code = #{mpart_code}
+        </if>
+        <if test='spart_code!=null and spart_code!=""'>
+            and spart_code = #{spart_code}
+        </if>
+        <if test='rec_inout!=null and rec_inout!=""'>
+            and rec_inout = #{rec_inout}
+        </if>
+        <if test='user_id!=null and user_id!=""'>
+            and user_id = #{user_id}
+        </if>
+        <if test='user_name!=null and user_name!=""'>
+            and user_name = #{user_name}
+        </if>
+        <if test='cust_id!=null and cust_id!=""'>
+            and cust_id = #{cust_id}
+        </if>
+        <if test='cust_name!=null and cust_name!=""'>
+            and cust_name = #{cust_name}
+        </if>
+        <if test='cust_tel!=null and cust_tel!=""'>
+            and cust_tel = #{cust_tel}
+        </if>
+        <if test='rec_keycode!=null and rec_keycode!=""'>
+            and rec_keycode = #{rec_keycode}
+        </if>
+        <if test='rec_filename!=null and rec_filename!=""'>
+            and rec_filename = #{rec_filename}
+        </if>
+        <if test='rec_abort_code!=null and rec_abort_code!=""'>
+            and rec_abort_code = #{rec_abort_code}
+        </if>
+        <if test='rec_store_code!=null and rec_store_code!=""'>
+            and rec_store_code = #{rec_store_code}
+        </if>
+        <if test='rec_mystery_code!=null and rec_mystery_code!=""'>
+            and rec_mystery_code = #{rec_mystery_code}
+        </if>
+        <if test='user_list!=null and user_list!=""'>
+            and user_id in (${user_list})
+        </if>
+        <if test='custom_fld_01!=null and custom_fld_01!=""'>
+            and custom_fld_01 = #{custom_fld_01}
+        </if>
+        <if test='custom_fld_02!=null and custom_fld_02!=""'>
+            and custom_fld_02 = #{custom_fld_02}
+        </if>
+        <if test='custom_fld_03!=null and custom_fld_03!=""'>
+            and custom_fld_03 = #{custom_fld_03}
+        </if>
+        <if test='custom_fld_04!=null and custom_fld_04!=""'>
+            and custom_fld_04 = #{custom_fld_04}
+        </if>
+        <if test='custom_fld_05!=null and custom_fld_05!=""'>
+            and custom_fld_05 = #{custom_fld_05}
+        </if>
+        <if test='_user_level!=null and _user_level!="" and _user_level>"A"'>
+            <choose>
+                <when test='_user_level=="B"'>
+                    and bpart_code = #{_bpart_code}
+                </when>
+                <when test='_user_level=="C"'>
+                    and bpart_code = #{_bpart_code}
+                    and mpart_code = #{_mpart_code}
+                </when>
+                <when test='_user_level=="D"'>
+                    and bpart_code = #{_bpart_code}
+                    and mpart_code = #{_mpart_code}
+                    and spart_code = #{_spart_code}
+                </when>
+                <when test='_user_level=="E"'>
+                    and user_id = #{_user_id}
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <!-- 녹취이력 조회 selectList -->
+    <select id="selectList" parameterType="map" resultType="map">
+        /* 녹취이력 조회 selectList */
+        select
+        (${s.tot_cnt}-rownum+1) as idx
+        ,*
+        from (
+        select
+        ROW_NUMBER() OVER(order by ${s.sort_idx} ${s.sort_dir}) as rownum
+        ,rec_seq
+        ,to_char(rec_datm, 'YYYY-MM-DD HH24:MI:SS') as rec_datm
+        ,rec_keycode
+        ,rec_filename
+        ,local_no
+        ,system_code
+        ,business_code
+        ,bpart_code
+        ,mpart_code
+        ,spart_code
+        ,to_char(rec_call_time, 'HH24:MI:SS') as rec_call_time
+        ,user_name
+        ,cust_id
+        ,custom_fld_01
+        ,custom_fld_02
+        ,custom_fld_03
+        ,custom_fld_04
+        ,custom_fld_05
+        ,rec_stt_code
+        <foreach collection='r' index='idx' item='item' open=',' close='' separator=','>
+            <choose>
+                <when test='idx=="v_rec_datm"'>
+                    to_char(${item}, 'YYYYMMDD') as ${idx}
+                </when>
+                <when test='idx=="v_rec_start_time"'>
+                    to_char(${item}, 'HH24:MI:SS') as ${idx}
+                </when>
+                <when test='idx=="v_rec_end_time"'>
+                    to_char(${item}, 'HH24:MI:SS') as ${idx}
+                </when>
+                <when test='idx=="v_rec_call_time"'>
+                    to_char(${item}, 'HH24:MI:SS') as ${idx}
+                </when>
+                <when test='idx=="v_rec_inout"'>
+                    (case ${item} when 'I' then '인'
+                    when 'O' then '아웃'
+                    when 'L' then '내선'
+                    else ${item} end) as ${idx}
+                </when>
+                <when test='idx=="v_rec_succ_code"'>
+                    (case ${item} when '1' then '성공'
+                    when '0' then '실패'
+                    else ${item} end) as ${idx}
+                </when>
+                <when test='idx=="v_rec_bak_code"'>
+                    (case ${item} when '0' then '대기'
+                    when '1' then '성공'
+                    when '2' then '실패'
+                    else ${item} end) as ${idx}
+                </when>
+                <when test='idx=="v_cust_tel"'>
+                    ${item} as ${idx}
+                </when>
+                <when test='idx=="v_url"'>
+                    'link' as ${idx}
+                </when>
+                <when test='idx=="v_download"'>
+                    'down' as ${idx}
+                </when>
+                <when test='idx=="v_memo"'>
+                    coalesce(memo_cnt,0) as ${idx}
+                </when>
+                <otherwise>
+                    ${item} as ${idx}
+                </otherwise>
+            </choose>
+        </foreach>
+        from tbl_record_download
+        where 1=1
+        and rec_datm between (#{s.rec_date1} || ' 00:00:00.000')::timestamp and (#{s.rec_date2} || ' 23:59:59.997')::timestamp
+        and rec_start_time between #{s.rec_start_time1}::time and #{s.rec_start_time2}::time
+        and rec_call_time between #{s.rec_call_time1}::time and #{s.rec_call_time2}::time
+        <if test='s.rec_succ_code!=null and s.rec_succ_code!=""'>
+            and rec_succ_code = #{s.rec_succ_code}
+        </if>
+        <if test='s.system_code!=null and s.system_code!=""'>
+            and system_code = #{s.system_code}
+        </if>
+        <choose>
+            <when test='s.local_no1!=null and s.local_no1!="" and s.local_no2!=null and s.local_no2!=""'>
+                and local_no between #{s.local_no1} and #{s.local_no2}
+            </when>
+            <when test='s.local_no1!=null and s.local_no1!="" and (s.local_no2==null or s.local_no2=="")'>
+                and local_no = #{s.local_no1}
+            </when>
+            <when test='(s.local_no1==null or s.local_no1=="") and s.local_no2!=null and s.local_no2!=""'>
+                and local_no = #{s.local_no2}
+            </when>
+        </choose>
+        <if test='s.bpart_code!=null and s.bpart_code!=""'>
+            and bpart_code = #{s.bpart_code}
+        </if>
+        <if test='s.mpart_code!=null and s.mpart_code!=""'>
+            and mpart_code = #{s.mpart_code}
+        </if>
+        <if test='s.spart_code!=null and s.spart_code!=""'>
+            and spart_code = #{s.spart_code}
+        </if>
+        <if test='s.rec_inout!=null and s.rec_inout!=""'>
+            and rec_inout = #{s.rec_inout}
+        </if>
+        <if test='s.user_id!=null and s.user_id!=""'>
+            and user_id = #{s.user_id}
+        </if>
+        <if test='s.user_name!=null and s.user_name!=""'>
+            and user_name = #{s.user_name}
+        </if>
+        <if test='s.cust_id!=null and s.cust_id!=""'>
+            and cust_id = #{s.cust_id}
+        </if>
+        <if test='s.cust_name!=null and s.cust_name!=""'>
+            and cust_name = #{s.cust_name}
+        </if>
+        <if test='s.cust_tel!=null and s.cust_tel!=""'>
+            and cust_tel = #{s.cust_tel}
+            <!--and cust_tel=encode(encrypt(convert_to(#{s.cust_tel},'utf8'), 'cnet', 'aes'), 'hex')-->
+        </if>
+        <if test='s.rec_keycode!=null and s.rec_keycode!=""'>
+            and rec_keycode = #{s.rec_keycode}
+        </if>
+        <if test='s.rec_filename!=null and s.rec_filename!=""'>
+            and rec_filename = #{s.rec_filename}
+        </if>
+        <if test='s.rec_abort_code!=null and s.rec_abort_code!=""'>
+            and rec_abort_code = #{s.rec_abort_code}
+        </if>
+        <if test='s.rec_store_code!=null and s.rec_store_code!=""'>
+            and rec_store_code = #{s.rec_store_code}
+        </if>
+        <if test='s.rec_mystery_code!=null and s.rec_mystery_code!=""'>
+            and rec_mystery_code = #{s.rec_mystery_code}
+        </if>
+        <if test='s.user_list!=null and s.user_list!=""'>
+            and user_id in (${s.user_list})
+        </if>
+        <if test='s.custom_fld_01!=null and s.custom_fld_01!=""'>
+            and custom_fld_01 = #{s.custom_fld_01}
+        </if>
+        <if test='s.custom_fld_02!=null and s.custom_fld_02!=""'>
+            and custom_fld_02 = #{s.custom_fld_02}
+        </if>
+        <if test='s.custom_fld_03!=null and s.custom_fld_03!=""'>
+            and custom_fld_03 = #{s.custom_fld_03}
+        </if>
+        <if test='s.custom_fld_04!=null and s.custom_fld_04!=""'>
+            and custom_fld_04 = #{s.custom_fld_04}
+        </if>
+        <if test='s.custom_fld_05!=null and s.custom_fld_05!=""'>
+            and custom_fld_05 = #{s.custom_fld_05}
+        </if>
+        <if test='s._user_level!=null and s._user_level!="" and s._user_level>"A"'>
+            <choose>
+                <when test='s._user_level=="B"'>
+                    and bpart_code = #{s._bpart_code}
+                </when>
+                <when test='s._user_level=="C"'>
+                    and bpart_code = #{s._bpart_code}
+                    and mpart_code = #{s._mpart_code}
+                </when>
+                <when test='s._user_level=="D"'>
+                    and bpart_code = #{s._bpart_code}
+                    and mpart_code = #{s._mpart_code}
+                    and spart_code = #{s._spart_code}
+                </when>
+                <when test='s._user_level=="E"'>
+                    and user_id = #{s._user_id}
+                </when>
+            </choose>
+        </if>
+        order by ${s.sort_idx} ${s.sort_dir}
+        limit ${s.top_cnt} offset (${s.start_cnt}-1)
+        ) U
+    </select>
+
     <!-- 녹취이력 count selectCount -->
     <insert id="insertDownload" parameterType="map">
         /* 상담APP 연동페이지 selectRelationList2 */

@@ -135,6 +135,8 @@
 				OrderbyValue += "," + item.get("conf_field").toString();
 			//}
 		}
+		resMap.put("v_download","download");
+		OrderbyValue += ",download";
 		sort_idx = OrderBy(tmp_sort_idx, OrderbyValue);
 		// search
 		//argMap.put("dateStr", CommonUtil.getRecordTableNm(rec_date1));
