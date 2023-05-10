@@ -429,7 +429,7 @@
 	}
 </script>
 
-<body class="white-bg">
+<body class="white-bg" style="background-color:#ffffff">
 
 	<form name=fMultiPlay method=post>
 		<input type=hidden name=curRecIdx value=<%=curRecIdx%>>
@@ -582,6 +582,10 @@
 						</tr>
 					</thead>
 					<tr>
+						<td class="table-td">Division</td>
+						<td><%=curRec.get("custom_fld_03") %></td>
+					</tr>
+					<tr>
 						<td class="table-td">상담원ID</td>
 						<td><%=curRec.get("user_id") %></td>
 					</tr>
@@ -590,16 +594,20 @@
 						<td><%=Mask.getMaskedName(curRec.get("user_name")) %></td>
 					</tr>
 					<tr>
-						<td class="table-td">내선번호</td>
-						<td><%=curRec.get("local_no") %></td>
+						<td class="table-td">Conversation ID</td>
+						<td><%=curRec.get("rec_keycode") %></td>
 					</tr>
 					<tr>
 						<td class="table-td">녹취파일명</td>
 						<td><%=curRec.get("rec_filename") %></td>
 					</tr>
 					<tr>
-						<td class="table-td">UCID</td>
-						<td><%=curRec.get("rec_keycode") %></td>
+						<td class="table-td">Queue</td>
+						<td><%=curRec.get("custom_fld_01") %></td>
+					</tr>
+					<tr>
+						<td class="table-td">Reason Code</td>
+						<td><%=curRec.get("custom_fld_02") %></td>
 					</tr>
 				</table>
 			</div>

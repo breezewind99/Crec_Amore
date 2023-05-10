@@ -7,7 +7,17 @@
 %>
 
 <%
-	if(!Site.isPmss(out,"rec_search","jsonerr")) return;
+
+	JSONObject json = new JSONObject();
+
+	String _check_login = CommonUtil.checkLogin("rec_search","");
+	if(CommonUtil.hasText(_check_login))
+	{
+		json.put("code","ERRLOGIN");
+		json.put("msg","로그인 후 이용해 주십시요.");
+		out.print(json.toJSONString());
+		return;
+	}
 
 	Db db = null;
 
@@ -60,7 +70,7 @@
 
 		if(!CommonUtil.hasText(cust_tel))
 		{
-			out.print(CommonUtil.getPopupMsg(CommonUtil.getErrorMsg("NO_PARAM"),"","close"));
+			Site.writeJsonResult(out, false, "전화번호는 필수 항목입니다.");
 			return;
 		}
 
@@ -79,37 +89,6 @@
 			}
 			user_list = tmp_user_list.substring(1);
 		}
-		/*
-		logger.info("☆☆☆☆☆☆");
-		logger.info("rec_date1 : "+rec_date1);
-		logger.info("rec_date2 : "+rec_date2);
-		logger.info("☆☆☆☆☆☆");
-		*/
-		
-		// 녹취일자 확인 (동일한 년도의 데이터만 조회 가능)
-		// 동일 년도 체크 제거 요청 - CJM(20190104)
-		/*
-		if(!rec_date1.substring(0, 4).equals(rec_date2.substring(0, 4))) 
-		{
-			Site.writeJsonResult(out, false, "동일한 년도의 이력만 조회 가능합니다.");
-			return;
-		}
-
-		// 요청일시와 현재 시간의 차이를 구함
-		Date from_date = DateUtil.getDate(DateUtil.getDateFormatByIntVal(rec_date1.replaceAll("-", ""), "yyyy-MM-dd"), "yyyy-MM-dd");
-		Date to_date = DateUtil.getDate(DateUtil.getDateFormatByIntVal(rec_date2.replaceAll("-", ""), "yyyy-MM-dd"), "yyyy-MM-dd");
-		
-		int diff = DateUtil.getDateDiff(from_date, to_date, "D");
-		
-		//logger.info("diff : "+diff);
-
-		// 3개월 이상일 경우 체크
-		if(diff > 93) 
-		{
-			Site.writeJsonResult(out, false, "3개월 범위 이력만 조회 가능합니다.");
-			return;
-		}
-		*/
 
 		// paging 변수
 		int tot_cnt = 0;
@@ -117,7 +96,6 @@
 		int start_cnt = 0;
 		int end_cnt = 0;
 
-		JSONObject json = new JSONObject();
 
 		Map<String, Object> confMap = new HashMap<String, Object>();
 		Map<String, Object> resMap  = new LinkedHashMap<String, Object>();
@@ -282,7 +260,6 @@
 		json.put("curPage", cur_page);
 		json.put("data", list);
 		out.print(json.toJSONString());
-		logger.info("Search Result");
 	} catch(NullPointerException e) {
 		logger.error(e.getMessage());
 	} catch(Exception e) {

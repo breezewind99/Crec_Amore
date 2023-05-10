@@ -1,43 +1,68 @@
 <%@ page import="java.io.*, java.util.zip.*" %>
+<%@ page import="com.cnet.crec.util.CommonUtil" %>
+<%@ page import="java.net.HttpURLConnection" %>
+<%@ page import="java.net.URL" %>
+<%@ page import="java.util.Arrays" %>
 <%
 	try {
-		String fileName = "20190329165946_1431.wav";
-		String zipFileName = "example.zip";
-		String fileUrl = "E:/test/20190403/190013/20190329165946_1431.wav";
-		String zipFileUrl = "E:/test/20190403/190013/example.zip";
 
-		FileInputStream fileInputStream = new FileInputStream(fileUrl);
-		FileOutputStream fileOutputStream = new FileOutputStream(zipFileUrl);
-		ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
-		ZipEntry zipEntry = new ZipEntry(fileName);
-		zipOutputStream.putNextEntry(zipEntry);
+		String zipFileName = "multi.zip";
 
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = fileInputStream.read(buffer)) > 0) {
-			zipOutputStream.write(buffer, 0, length);
+		String[] file_url = {"https://cs-record-dev.amorepacific.com/rec_search/audio.jsp?refer=pr6jJdmtuBLSBEveGYVWFxA5MhJB61yzDFKBhDp26GDUT%2BeZG8SytZt86zNIeXnC%2B1L2BBPDmuNYriF2Ii%2BJCgOwxIz4ioZLE%2FVMLJF93nw7zKlO5qcqIpTMm%2Fkl%2BT3JRRnzbzmGgSKS9jQwadanmg%3D%3D.mp3",
+				"https://cs-record-dev.amorepacific.com/rec_search/audio.jsp?refer=pr6jJdmtuBLSBEveGYVWF9lEMmuRwNuOczk0f%2F3DUWDxrm3332IFz5rm9NgkvIUQ1Hg9g8oN87GfITvtg8D2jHfW9lc6NHJeTCUH0tYzYaQWyX9YBQqO37DEv66Oh5SdVJDl%2Bn01oSPH4vGDO1%2FEtQ%3D%3D.mp3",
+				"https://cs-record-dev.amorepacific.com/rec_search/audio.jsp?refer=pr6jJdmtuBLSBEveGYVWFypm1Mc3ERsfzi2LDegECE86OaWlT7siGn8Aq749nSupplD1dG%2F8XBbfCCwIj9j9y7iWgF5Bch%2BYxZZf%2Bs7ReRForFJpgIX20MCxw0qeB%2BHd4%2Bhk%2FLhAKf0a%2B%2B5hQeSU5g%3D%3D.mp3",
+				"https://cs-record-dev.amorepacific.com/rec_search/audio.jsp?refer=pr6jJdmtuBLSBEveGYVWF0JIe9SQVxYAaKlsvJQIty5eqHhxhBkrnOI3spemR0MeFxc9FIFFkhK5qzxaTMf4O1gHvRMiu32L6wTJ6UuhN3ivdRsFnNc8fXQnQL%2FGRZxnh%2BI%2BFO%2Fd1AJDlGg43A%2Fprg%3D%3D.mp3",
+				"https://cs-record-dev.amorepacific.com/rec_search/audio.jsp?refer=pr6jJdmtuBLSBEveGYVWFy%2BQPvEjuzP6dPFQUsD4tuUcPVszaua9%2FYlK3R5LpYKm12TxzXch35S8WMMIAZEsUjQ1wt9FafTAubUieyD5a9KRX8irfOW%2BK69h%2FZfmTk6Xj6kibvuNVdehTD9mzQsIXA%3D%3D.mp3"
+		};
+
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+		for (String item : file_url) {
+
+			URL url = null;
+			HttpURLConnection httpconn = null;
+			InputStream in = null;
+
+			try {
+
+				url = new URL(item);
+
+				httpconn = (HttpURLConnection) url.openConnection();
+				httpconn.setConnectTimeout(10000);
+
+				if(httpconn.getResponseCode() == HttpURLConnection.HTTP_OK)
+				{
+					ZipEntry zipEntry = new ZipEntry(item);
+					in = httpconn.getInputStream();
+
+					zipOutputStream.putNextEntry(zipEntry);
+					byte[] Output = new byte[1024];
+					int length;
+					while ((length = in.read(Output)) > 0) {
+						zipOutputStream.write(Output, 0, length);
+					}
+					in.close();
+					zipOutputStream.closeEntry();
+				}
+
+			} catch (Exception ex) {
+
+			}
+
 		}
-
-		zipOutputStream.closeEntry();
 		zipOutputStream.close();
-		fileInputStream.close();
-		fileOutputStream.close();
+		byteArrayOutputStream.close();
 
-		File file = new File(zipFileUrl);
+		byte[] bytes = byteArrayOutputStream.toByteArray();
 		response.setContentType("application/zip");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + zipFileName + "\"");
-		response.setContentLength((int) file.length());
+		response.setContentLength(bytes.length);
 
-		FileInputStream fileInputStream2 = new FileInputStream(file);
 		OutputStream outputStream = response.getOutputStream();
-		byte[] buffer2 = new byte[1024];
-		int length2;
-		while ((length2 = fileInputStream2.read(buffer2)) > 0) {
-			outputStream.write(buffer2, 0, length2);
-		}
+		outputStream.write(bytes);
 		outputStream.flush();
 		outputStream.close();
-		fileInputStream2.close();
 
 	} catch (Exception e) {
 

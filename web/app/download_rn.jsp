@@ -8,45 +8,28 @@
 	try
 	{
 		db = new Db(true);
-		StringBuffer jb = new StringBuffer();
-		String line = null;
 
-		try {
-			BufferedReader reader = request.getReader();
-			while ((line = reader.readLine()) != null) {
-				jb.append(line);
-			}
-		} catch (Exception e) { /* error handling */ }
 
-		if(!CommonUtil.hasText(jb.toString()))
+		String download_id = CommonUtil.getParameter("download_id");
+		String rec_seq = CommonUtil.getParameter("rec_seq");
+
+		if(!CommonUtil.hasText(rec_seq) || !CommonUtil.hasText(download_id))
 		{
-			out.print(CommonUtil.getPopupMsg(CommonUtil.getErrorMsg("NO_PARAM"),"","close"));
+			Site.writeJsonResult(out, false, "등록에 실패했습니다.");
 			return;
 		}
 
-		JSONObject jsonObject = new JSONObject(jb.toString());
-		JSONArray detailArray = jsonObject.getJSONArray("detail");
-
-		for (Object obj : detailArray) {
-			JSONObject detailObject = (JSONObject) obj;
-			String rec_datm = detailObject.getString("rec_datm");
-			String conv_id = detailObject.getString("conv_id");
-			String user_id = detailObject.getString("user_id");
-			Map<String, Object> argMap = new HashMap<String, Object>();
-			argMap.put("rec_keycode",conv_id);
-			argMap.put("rec_date",rec_datm);
-//			argMap.put("user_id",user_id);
-			// 값 출력
-			int ins_cnt = db.insert("rec_search_download.insertDownload", argMap);
-			if(ins_cnt < 1)
-			{
-				Site.writeJsonResult(out, false, "등록에 실패했습니다.");
-				return;
-			}
-//			out.println("rec_datm: " + rec_datm);
-//			out.println("conv_id: " + conv_id);
-//			out.println("user_id: " + user_id);
+		Map<String, Object> argMap = new HashMap<String, Object>();
+		argMap.put("rec_seq",rec_seq);
+		argMap.put("download_id",download_id);
+		// 값 출력
+		int ins_cnt = db.insert("rec_search_download.insertDownload", argMap);
+		if(ins_cnt < 1)
+		{
+			Site.writeJsonResult(out, false, "등록에 실패했습니다.");
+			return;
 		}
+
 		Site.writeJsonResult(out, true, "등록에 성공하였습니다.");
 
 	} catch(NullPointerException e) {

@@ -161,28 +161,29 @@
 		} else {
 			fft_url = file_url.replace(".wav", ".nmf");
 		}*/
-		if("88".equals(system_code)) 
-		{
-			fft_url = file_url.replace("download", "ffttext");
-		} 
-		else 
-		{
-			fft_url = file_url.replace("download", "ffttext");
-		}
-
-		// 녹취파형 HTTP 연결
-		url = new URL(fft_url);
-		httpconn = (HttpURLConnection) url.openConnection();
-		httpconn.setConnectTimeout(10000);
-
-		if(httpconn.getResponseCode() != HttpURLConnection.HTTP_OK) 
-		{
-			out.print(CommonUtil.getPopupMsg("녹취파일이 존재하지 않습니다.","",""));
-			return;
-		}
+//		if("88".equals(system_code))
+//		{
+//			fft_url = file_url.replace("download", "ffttext");
+//		}
+//		else
+//		{
+//			fft_url = file_url.replace("download", "ffttext");
+//		}
+//
+//		// 녹취파형 HTTP 연결
+//		url = new URL(fft_url);
+//		httpconn = (HttpURLConnection) url.openConnection();
+//		httpconn.setConnectTimeout(10000);
+//
+//		if(httpconn.getResponseCode() != HttpURLConnection.HTTP_OK)
+//		{
+//			out.print(CommonUtil.getPopupMsg("녹취파일이 존재하지 않습니다.","",""));
+//			return;
+//		}
 		//}
 
 		// 녹취파일 HTTP 연결
+		file_url.replace("https://cs-record-prd.amorepacific.com","http://localhost");
 		url = new URL(file_url);
 
 		httpconn = (HttpURLConnection) url.openConnection();

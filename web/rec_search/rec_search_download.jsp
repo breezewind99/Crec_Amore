@@ -41,7 +41,6 @@
 				htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+""+down_perm+" }\n";
 			}
 		}
-		htmSearchListField += ",{ title: '다운로드', minWidth: 50, dataIndx: 'v_download', sortable: false }";
 
 		// config search select
 		List<Map<String, Object>> sel_list = db.selectList("rec_search.selectSearchConfig", confmap);
@@ -126,7 +125,7 @@
 		baseObj.toolbar.items.push(
 			{type:"button", icon:"ui-icon-gear", label:"설정", style:"float:right; margin-right:5px;", attr:"data-toggle='modal'",  listeners:[{"click":function() {popResultConfig('R');}}]} ,
 			{type:"button", icon:"ui-icon-gear", label:"다중다운로드", style:"float:right; margin-right:5px;display:<%=ComLib.getCssDisplayStr(Finals.isExistMultiDownload)%>", attr:"data-toggle='modal'",  listeners:[{"click":function() {getSelectedRows();}}]} ,
-			{type:"button", icon:"ui-icon-gear", label:"다중청취", style:"float:right; margin-right:5px;", attr:"data-toggle='modal'",  listeners:[{	"click":function() {playRecFileMulti('rec');}}]}
+			// {type:"button", icon:"ui-icon-gear", label:"다중청취", style:"float:right; margin-right:5px;", attr:"data-toggle='modal'",  listeners:[{	"click":function() {playRecFileMulti('rec');}}]}
 		);
 	
 		var obj = $.extend({}, baseObj, {

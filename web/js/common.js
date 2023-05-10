@@ -581,7 +581,7 @@ var getCommCodeToForm = function(parent_code, targ_fn_name, targ_fd_name) {
 		success:function(dataJSON){
 			var obj	= $("#" + targ_fn_name + " select[name=" + targ_fd_name + "]");
 
-			obj.html("<option value=''>선택</option>");
+			// obj.html("<option value=''>선택</option>");
 
 			if(dataJSON.code != "ERR") 
 			{
@@ -901,8 +901,10 @@ var getBaseGridDM = function(page_id) {
 		},
 		getData: function (dataJSON, textStatus, jqXHR) {
 			console.log("code : "+dataJSON.code);
+			var $tit = $(this).find(".pq-toolbar input[name=toolbar_title]");
 			if(dataJSON.code == "ERR") 
 			{
+				$tit.val("전체: 0");
 				alert(dataJSON.msg);
 				return false;
 			} else if (dataJSON.code == "ERRLOGIN") {
@@ -912,7 +914,7 @@ var getBaseGridDM = function(page_id) {
 			} else {
 				//alert(objToStr(dataJSON));
 				//console.log("dataJson : "+objToStr(dataJSON));
-				var $tit = $(this).find(".pq-toolbar input[name=toolbar_title]");
+
 				$tit.val("전체: " + dataJSON.totalRecords);
 				//Grid(기본) 속성 정의가  정상적으로 실행 될 경우 - CJM(20190117)
 				baseGridChk = true;
@@ -927,6 +929,8 @@ var getBaseGridDM = function(page_id) {
 				//console.log("data : "+objToStr(dataJSON.data));
 				return { totalPages: dataJSON.totalPages, curPage: dataJSON.curPage, totalRecords: dataJSON.totalRecords, data:	dataJSON.data };
 			}
+		},error:function (jqXHR, textStatus, errorThrown) {
+			alert("원격 서버로부터 자료를 전송받지 못하였습니다.");
 		}
 	};
 

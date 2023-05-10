@@ -4,6 +4,8 @@
 <%@ page import="java.net.URL"%>
 <%@ page import="java.net.HttpURLConnection"%>
 <%@ page import="java.io.*"%>
+<%@ page import="java.util.zip.ZipOutputStream" %>
+<%@ page import="java.util.zip.ZipEntry" %>
 <%
 	// 메뉴 접근권한 체크
 	if(!Site.isPmss(out,"rec_search","")) return;
@@ -15,6 +17,8 @@
 	ByteArrayOutputStream baos = null;
 	BufferedReader rd = null;
 	BufferedOutputStream os = null;
+	ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
 
 	try {
 		// DB Connection
@@ -115,7 +119,7 @@
 	
 				argMap.clear();
 				argMap.put("rec_datm", rec_datm);
-				argMap.put("local_no", local_no);
+				//argMap.put("local_no", local_no);
 				argMap.put("rec_filename", rec_filename);
 
 				// 녹취이력 조회
@@ -127,7 +131,8 @@
 				}
 
 				// 녹취파일 경로 조회
-				String file_url = getListenURL3("DOWN", data, logger, "ADD");
+				String file_url = getListenURL2("DOWN", data, logger, "ADD");
+				file_url.replace("https://cs-record-prd.amorepacific.com","http://localhost");
 				if(file_url==null || "".equals(file_url)) 
 				{
 					out.print(CommonUtil.getPopupMsg("녹취파일 경로를 가져 오는데 실패했습니다.","",""));
@@ -146,35 +151,6 @@
 				// 루키스, 나이스 데이터인 경우 파형 확장자를 가진 URL로 2번 http 통신이 필요함
 				String system_code = data.get("system_code").toString();
 
-				//if("99".equals(system_code) || "88".equals(system_code)) {
-				String fft_url = "";
-				/*if("99".equals(system_code)) {
-					fft_url = file_url.replace(".wav", ".fft");
-				} else {
-					fft_url = file_url.replace(".wav", ".nmf");
-				}*/
-				if("88".equals(system_code)) 
-				{
-					fft_url = file_url.replace(".wav", "AND.nmf");
-				} 
-				else 
-				{
-					fft_url = file_url.replace(".wav", "AND.fft");
-				}
-
-				// 녹취파형 HTTP 연결
-				url = new URL(fft_url);
-	
-				httpconn = (HttpURLConnection) url.openConnection();
-				httpconn.setConnectTimeout(10000);
-	
-				if(httpconn.getResponseCode()!=HttpURLConnection.HTTP_OK) 
-				{
-					out.print(CommonUtil.getPopupMsg("녹취파일이 존재하지 않습니다.","",""));
-					return;
-				}
-				//}
-
 				// 녹취파일 HTTP 연결
 				url = new URL(file_url);
 	
@@ -189,30 +165,17 @@
 					return;
 				}
 
-				contentType = httpconn.getContentType();
-				contentLength = httpconn.getContentLength();
-				//logger.error("1 : " + contentLength);
 				in = httpconn.getInputStream();
-				baos = new ByteArrayOutputStream();
+				ZipEntry zipEntry = new ZipEntry(rec_filename);
 
-				// 미디어 서버 연동 결과 저장
-				byte[] buffer = new byte[4096];
-				int leng = 0;
-				while((leng=in.read(buffer))!=-1) 
-				{
-					baos.write(buffer, 0, leng);
+				zipOutputStream.putNextEntry(zipEntry);
+				byte[] Output = new byte[1024];
+				int length;
+				while ((length = in.read(Output)) > 0) {
+					zipOutputStream.write(Output, 0, length);
 				}
-				baos.flush();
-	
-				// 미디어 서버 오류 체크
-				rd = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray())));
-				//logger.debug("rd="+rd.readLine());
-				//logger.error("3 AND rd: //" + rd);
-				/* if("<H2>".equals(rd.readLine().substring(0,4))) {
-					out.print(CommonUtil.getPopupMsg("미디어서버 오류가 발생하였습니다.","",""));
-				return;
-			  } */
-
+				in.close();
+				zipOutputStream.closeEntry();
 			} 
 			else 
 			{
@@ -277,7 +240,7 @@
 
 				argMap.clear();
 				argMap.put("rec_datm",rec_datm);
-				argMap.put("local_no",local_no);
+//				argMap.put("local_no",local_no);
 				argMap.put("rec_filename",rec_filename);
 
 				// 녹취이력 조회
@@ -289,7 +252,7 @@
 				}
 
 				// 녹취파일 경로 조회
-				String file_url = getListenURL3("DOWN", data, logger, "END");
+				String file_url = getListenURL2("DOWN", data, logger, "END");
 
 				if(file_url == null || "".equals(file_url)) 
 				{
@@ -309,35 +272,6 @@
 				// 루키스, 나이스 데이터인 경우 파형 확장자를 가진 URL로 2번 http 통신이 필요함
 				String system_code = data.get("system_code").toString();
 
-				//if("99".equals(system_code) || "88".equals(system_code)) {
-				String fft_url = "";
-				/*if("99".equals(system_code)) {
-					fft_url = file_url.replace(".wav", ".fft");
-				} else {
-					fft_url = file_url.replace(".wav", ".nmf");
-				}*/
-				if("88".equals(system_code)) 
-				{
-					fft_url = file_url.replace(".wav", "END.nmf");
-				} 
-				else 
-				{
-					fft_url = file_url.replace(".wav", "END.fft");
-				}
-
-				// 녹취파형 HTTP 연결
-				url = new URL(fft_url);
-	
-				httpconn = (HttpURLConnection) url.openConnection();
-				httpconn.setConnectTimeout(10000);
-
-				if(httpconn.getResponseCode()!=HttpURLConnection.HTTP_OK) 
-				{
-					out.print(CommonUtil.getPopupMsg("녹취파일이 존재하지 않습니다.","",""));
-					return;
-				}
-				//}
-
 				// 녹취파일 HTTP 연결
 				url = new URL(file_url);
 	
@@ -352,51 +286,35 @@
 					return;
 				}
 
-				contentType = httpconn.getContentType();
-				contentLength = httpconn.getContentLength();
-
 				in = httpconn.getInputStream();
-				baos = new ByteArrayOutputStream();
-	
-				// 미디어 서버 연동 결과 저장
-				byte[] buffer = new byte[4096];
-				int leng = 0;
-				while((leng=in.read(buffer))!=-1) 
-				{
-					baos.write(buffer, 0, leng);
-				}
-				baos.flush();
 
-				// 미디어 서버 오류 체크
-				rd = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray())));
-				//logger.debug("rd="+rd.readLine());
-	
-				/*  if("<H2>".equals(rd.readLine().substring(0,4))) {
-					out.print(CommonUtil.getPopupMsg("미디어서버 오류가 발생하였습니다.","",""));
-					return;
-				}	 */
+				ZipEntry zipEntry = new ZipEntry(rec_filename);
+				zipOutputStream.putNextEntry(zipEntry);
+				byte[] Output = new byte[1024];
+				int length;
+				while ((length = in.read(Output)) > 0) {
+					zipOutputStream.write(Output, 0, length);
+				}
+				in.close();
+				zipOutputStream.closeEntry();
+
 			}
 		}
 
-		String fileName = "aa.zip";
+		String zipFileName = "MultiDownload.zip";
 
-		response.reset();
-		response.setContentType(contentType);
-		response.setHeader("Content-Description","Generated By CREC");
-		// response.setHeader("Content-Disposition","attachment; filename = " + new String(rec_filename.replace(".nmf", ".wav").getBytes("UTF-8"),"8859_1"));
-		 response.setHeader("Content-Disposition","attachment; filename = " + new String(fileName.getBytes("UTF-8"),"8859_1"));
-		// response.setHeader("Content-Length",""+contentLength);
-		response.setHeader("Pragma","no-cache");
-		// response.setHeader("Pragma","public");
-		response.setHeader("Expires","0");
-		response.setHeader("Cache-Control","max-age=0");
-		// getOutputStream error block
-		out.clear();
-		out=pageContext.pushBody();
+		zipOutputStream.close();
+		byteArrayOutputStream.close();
 
-		// file write
-		os = new BufferedOutputStream(response.getOutputStream());
-		os.write(baos.toByteArray());
+		byte[] bytes = byteArrayOutputStream.toByteArray();
+		response.setContentType("application/zip");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + zipFileName + "\"");
+		response.setContentLength(bytes.length);
+
+		OutputStream outputStream = response.getOutputStream();
+		outputStream.write(bytes);
+		outputStream.flush();
+		outputStream.close();
 
 		// resource close
 		os.close();

@@ -13,11 +13,9 @@
         select
         count(*)::int as tot_cnt
         ,ceil(count(*) / ${top_cnt}::float) as page_cnt
-        from tbl_record_download
+        from tbl_record_download trd left join tbl_record tr on trd.rec_seq = tr.rec_seq
         where 1=1
-        and rec_datm between (#{rec_date1} || ' 00:00:00.000')::timestamp and (#{rec_date2} || ' 23:59:59.997')::timestamp
-        and rec_start_time between #{rec_start_time1}::time and #{rec_start_time2}::time
-        and rec_call_time between #{rec_call_time1}::time and #{rec_call_time2}::time
+        and download_datm between (#{rec_date1} || ' 00:00:00.000')::timestamp and (#{rec_date2} || ' 23:59:59.997')::timestamp
         <if test='rec_succ_code!=null and rec_succ_code!=""'>
             and rec_succ_code = #{rec_succ_code}
         </if>
@@ -125,7 +123,7 @@
         from (
         select
         ROW_NUMBER() OVER(order by ${s.sort_idx} ${s.sort_dir}) as rownum
-        ,rec_seq
+        ,tr.rec_seq
         ,to_char(rec_datm, 'YYYY-MM-DD HH24:MI:SS') as rec_datm
         ,rec_keycode
         ,rec_filename
@@ -192,11 +190,9 @@
                 </otherwise>
             </choose>
         </foreach>
-        from tbl_record_download
+        from tbl_record_download trd left join tbl_record tr on trd.rec_seq = tr.rec_seq
         where 1=1
-        and rec_datm between (#{s.rec_date1} || ' 00:00:00.000')::timestamp and (#{s.rec_date2} || ' 23:59:59.997')::timestamp
-        and rec_start_time between #{s.rec_start_time1}::time and #{s.rec_start_time2}::time
-        and rec_call_time between #{s.rec_call_time1}::time and #{s.rec_call_time2}::time
+        and download_datm between (#{s.rec_date1} || ' 00:00:00.000')::timestamp and (#{s.rec_date2} || ' 23:59:59.997')::timestamp
         <if test='s.rec_succ_code!=null and s.rec_succ_code!=""'>
             and rec_succ_code = #{s.rec_succ_code}
         </if>
@@ -304,10 +300,9 @@
         /* 상담APP 연동페이지 selectRelationList2 */
         insert into tbl_record_download
         select
-            *
+            current_timestamp ,#{download_id}, rec_seq
         from tbl_record
         where 1=1
-          and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
-		and rec_keycode = #{rec_keycode}
+		and rec_seq = ${rec_seq}
     </insert>
 </mapper>

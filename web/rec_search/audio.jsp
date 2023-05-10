@@ -24,11 +24,6 @@
 
     String[] referfile = aes.Decrypt(refer.replace(".mp3","")).split("\\|");
     String[] tempfile = referfile[2].split("/");
-    //logger.debug(temp);
-//    01|20230324090208|20230323/11/d8f7e70b-765b-41e2-b529-5759e4e2b7f8_c14ce246-9f78-41bf-8d51-82e24b6a5b3b_2
-
-    //out.println(filename);
-    //http://127.0.0.1:8888/rec_search/audio.jsp?refer=vmJo1QWlgwQK7pYBJjp0ZsqYDQoCjOKruMBgiG//Qd4EZIk7qgGynWKEFyep36crRjM50P+KG6t2cpf3a/VpKCaDJqYq8PmBZ4y+iq4DR3oE3/JLv5u057LOLrp2+qPZpwRZcy3P2fAkW8ECAebyCQ==.mp3
     String filename = "D:/amore/Record/" + referfile[2] + ".mp3";
     String OriginStorage = "RECORD/" + referfile[2] + ".mp3";
     String TargetFile = tempfile[2] + ".mp3";

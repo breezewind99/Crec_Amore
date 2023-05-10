@@ -14,7 +14,38 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.security.MessageDigest" %>
 <%@ page import="java.math.BigInteger" %>
+<%@ page import="com.nets.sso.agent.*" %>
 <%!
+
+	//SSOConfig.
+	public static Boolean CheckSSOService(HttpServletRequest request, HttpServletResponse response)
+	{
+		Boolean ReturnValue = false;
+		try {
+			AuthCheck auth = new AuthCheck(request, response);
+			AuthStatus status = null;
+			status = auth.checkLogon(AuthCheckLevel.Medium);
+			if (status == AuthStatus.SSOFirstAccess) {
+//				out.println("SSO Status SSOFirstAccess");
+				auth.trySSO();
+				if (!CheckServer.isAlive()) {
+					status = AuthStatus.SSOUnAvaliable;
+				}
+			} else if (status == AuthStatus.SSOFail) {
+//				out.println("SSO SSOFail");
+			} else if (status == AuthStatus.SSOSuccess) {
+//				out.println("SSO SSOSuccess");
+				ReturnValue = true;
+			} else if (status == AuthStatus.SSOUnAvaliable) {
+//				out.println("SSO SSOUnAvaliable status : " + auth.errorNumber());
+			}
+			return ReturnValue;
+		} catch (Exception e) {
+//			out.println("SSO Excepition : " + e.getMessage());
+			return false;
+		}
+	}
+
 	/**
 	 * 녹취파일 청취 URL 리턴
 	 * @param type : 구분 (현재 사용안함)

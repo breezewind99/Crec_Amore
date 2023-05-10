@@ -169,7 +169,7 @@
 		values 
 		(
 			current_timestamp(3)::timestamp, #{login_id}, #{login_name}, #{down_ip}, #{rec_datm}::timestamp, #{rec_keycode}
-			,#{rec_filename},#{user_id},#{user_name},#{local_no},#{reason_code},#{reason_text},#{down_src}
+			,#{rec_filename},#{user_id},#{user_name},' ',#{reason_code},#{reason_text},#{down_src}
 		)
 	</insert>
 </mapper>

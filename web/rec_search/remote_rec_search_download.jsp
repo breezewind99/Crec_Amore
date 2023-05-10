@@ -7,7 +7,15 @@
 %>
 
 <%
-	if(!Site.isPmss(out,"rec_search","jsonerr")) return;
+	JSONObject json = new JSONObject();
+	String _check_login = CommonUtil.checkLogin("rec_search","");
+	if(CommonUtil.hasText(_check_login))
+	{
+		json.put("code","ERRLOGIN");
+		json.put("msg","로그인 후 이용해 주십시요.");
+		out.print(json.toJSONString());
+		return;
+	}
 
 	Db db = null;
 
@@ -109,8 +117,6 @@
 		int page_cnt = 0;
 		int start_cnt = 0;
 		int end_cnt = 0;
-
-		JSONObject json = new JSONObject();
 
 		Map<String, Object> confMap = new HashMap<String, Object>();
 		Map<String, Object> resMap  = new LinkedHashMap<String, Object>();

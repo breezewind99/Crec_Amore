@@ -472,16 +472,6 @@
 			<if test='user_name!=null and user_name!=""'>user_name = #{user_name},</if>
 			<if test='user_level!=null and user_level!=""'>user_level = #{user_level},</if>
 			<if test='local_no!=null and local_no!=""'>local_no = #{local_no},</if>
-			<if test='rec_div!=null and rec_div!=""'>
-				<choose>
-					<when test='rec_div=="T"'>channel_no = #{channel_no},</when>
-					<otherwise>channel_no = coalesce((select channel from crec_ip_info
-													where phone_num = #{local_no}
-													and system_code = #{system_code}
-													limit 1), ''),
-					</otherwise>
-				</choose>
-			</if>
 			<if test='system_code!=null and system_code!=""'>system_code = #{system_code},</if>
 			<if test='pass_chg_term!=null and pass_chg_term!=""'>pass_chg_term = #{pass_chg_term}::int,</if>
 			<if test='bpart_code!=null and bpart_code!=""'>bpart_code = #{bpart_code},</if>

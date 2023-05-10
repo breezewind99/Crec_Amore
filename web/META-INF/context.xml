@@ -2,13 +2,22 @@
 <Context path="/">
     <!-- POSTGRE MASTER DB -->
     <Resource
-            auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+            auth="Container" driverClassName="org.postgresql.Driver" factory="com.github.tomcatEncryptModule.EncryptedDataSourceFactory"
             initialSize="10" jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
             jmxEnabled="true" logAbandoned="true" maxActive="100" maxWait="10000" minEvictableIdleTimeMillis="60000" minIdle="10"
-            name="jdbc/crec_master" password="rhrortkdekaappDev!01" removeAbandoned="true" removeAbandonedTimeout="60"
+            name="jdbc/crec_master" password="28c5a589b41f3e132f950921f91046e7610f246d16ef3c27b0604b405ca7e13f" removeAbandoned="true" removeAbandonedTimeout="60"
             testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000"
-            type="javax.sql.DataSource" url="jdbc:postgresql://ctdev-cctrc-pg-01.caizqquwbw1r.ap-northeast-2.rds.amazonaws.com:5543/cctrcdev?currentSchema=cctrec"
-            username="cctrecapp" validationInterval="30000" validationQuery="SELECT 1"/>
+            type="javax.sql.DataSource" url="a67765ec7570739220b41ce4a85cf89df8ef8390f74fec2123e37bc4a929714043982a7b1995fb7f26e73824ae8e7875192088e99d4b6c260976f5d288ac237dbe7d390d9718fac6c250d5dd06cc226b1b05ea35a39682fb7055abbf6fe3dc3965e11e082dda8ddb4386f7d817eedfa906cd87219aca19f74c48465f9f6da25b"
+            username="a15658e1e90ef7e4112777fa6087a502" validationInterval="30000" validationQuery="SELECT 1"/>
+
+<!--    <Resource-->
+<!--            auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"-->
+<!--            initialSize="10" jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"-->
+<!--            jmxEnabled="true" logAbandoned="true" maxActive="100" maxWait="10000" minEvictableIdleTimeMillis="60000" minIdle="10"-->
+<!--            name="jdbc/crec_master" password="rhrortkdekaappDev!01" removeAbandoned="true" removeAbandonedTimeout="60"-->
+<!--            testOnBorrow="true" testOnReturn="false" testWhileIdle="true" timeBetweenEvictionRunsMillis="30000"-->
+<!--            type="javax.sql.DataSource" url="jdbc:postgresql://ctdev-cctrc-pg-01.caizqquwbw1r.ap-northeast-2.rds.amazonaws.com:5543/cctrcdev?currentSchema=cctrec"-->
+<!--            username="cctrecapp" validationInterval="30000" validationQuery="SELECT 1"/>-->
 <!--    <Resource auth="Container" driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"-->
 <!--              initialSize="10" maxActive="100" maxWait="10000" minIdle="10" jmxEnabled="true"-->
 <!--              testOnBorrow="true" testOnReturn="false" testWhileIdle="true" validationInterval="30000" validationQuery="SELECT 1"-->

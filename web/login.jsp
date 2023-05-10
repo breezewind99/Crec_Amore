@@ -54,7 +54,7 @@
 		int idUse = db.selectOne("login.selectIdCheck", login_id);
 		if(idUse == 0) 
 		{
-			Site.writeJsonResult(out, false, "해당 아이디가 존재하지 않아 로그인 할 수 없습니다.");
+			Site.writeJsonResult(out, false, "사용자 정보를 확인할수 없어 로그인 하실 수 없습니다.");
 			return;
 		}
 
@@ -185,12 +185,12 @@
 			/*
 				12. 비밀번호 만료
 			*/
-//			passCheckDay = Integer.parseInt(data.get("pass_check_day").toString());
-//			if(passCheckDay < 0)
-//			{
-//				out.print("{\"code\":\"PASS\", \"msg\":\"비밀번호 사용일이 만료되었습니다.\"}");
-//				return;
-//			}
+			passCheckDay = Integer.parseInt(data.get("pass_check_day").toString());
+			if(passCheckDay < 0)
+			{
+				out.print("{\"code\":\"PASS\", \"msg\":\"비밀번호 사용일이 만료되었습니다.\"}");
+				return;
+			}
 		}
 		
 		/*

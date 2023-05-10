@@ -18,7 +18,6 @@
 <jsp:include page="/include/popup.jsp" flush="false"/>
 <title>청취 사유 등록</title>
 <script type="text/javascript">
-	console.log("test");
 	$(function()
 	{
 		// 등록 버튼 클릭

@@ -168,7 +168,11 @@
 			,user_id
 			,user_name
 			,coalesce(rec_store_code,'0') as rec_store_code
+		    ,cust_tel
 			,web_url
+			,custom_fld_01
+			,custom_fld_02
+			,custom_fld_03
 		from tbl_record
 		where 1=1
 		and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
@@ -223,6 +227,9 @@
 			,coalesce(rec_enc_code, '0') as rec_enc_code
 			,coalesce(rec_store_code, '0') as rec_store_code
 			,coalesce((select system_ip from tbl_system where system_code = tbl_record.system_code), '') as system_ip
+			,custom_fld_01
+			,custom_fld_02
+			,custom_fld_03
 		from tbl_record
 		where 1=1
 		and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
@@ -260,6 +267,9 @@
 			,coalesce(rec_store_code, '0') as rec_store_code
 			,coalesce((select system_ip from tbl_system
 						where system_code = tbl_record.system_code), '') as system_ip
+			,custom_fld_01
+			,custom_fld_02
+			,custom_fld_03
 		from tbl_record
 		where 1=1
 		and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
@@ -296,6 +306,9 @@
 			,coalesce(rec_store_code, '0') as rec_store_code
 			,coalesce((select system_ip from tbl_system 
 						where system_code = tbl_record.system_code),'') as system_ip
+			,custom_fld_01
+			,custom_fld_02
+			,custom_fld_03
 		from tbl_record
 		where 1=1
 		and rec_datm between (#{rec_date} || ' 00:00:00.000')::timestamp and (#{rec_date} || ' 23:59:59.997')::timestamp
@@ -333,6 +346,9 @@
 			,coalesce(rec_store_code,'0') rec_store_code
 			,coalesce((select system_ip from tbl_system  
 						where system_code = tbl_record.system_code),'') as system_ip
+			,custom_fld_01
+			,custom_fld_02
+			,custom_fld_03
 		from tbl_record
 		where 1=1
 		<if test='rec_datm!=null and rec_datm!=""'>
