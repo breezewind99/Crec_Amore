@@ -60,6 +60,8 @@
 		String custom_fld_04 = CommonUtil.getParameter("custom_fld_04");
 		String custom_fld_05 = CommonUtil.getParameter("custom_fld_05");
 		String rec_mode = CommonUtil.getParameter("rec_mode","0");
+		String download_name = CommonUtil.getParameter("download_name");
+
 		if (rec_mode.equals("A")) rec_mode = "";
 
 		// tree에서 선택된 user id list
@@ -180,7 +182,7 @@
 		argMap.put("custom_fld_04", custom_fld_04);
 		argMap.put("custom_fld_05", custom_fld_05);
 		argMap.put("rec_mode", rec_mode);
-
+		argMap.put("download_name", download_name);
 		// 사용자 권한에 따른 녹취이력 조회
 		argMap.put("_user_id" ,_LOGIN_ID);
 		argMap.put("_user_level" ,_LOGIN_LEVEL);

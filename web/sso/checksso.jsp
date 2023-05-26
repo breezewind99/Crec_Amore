@@ -20,6 +20,7 @@
                 out.println("SSO SSOSuccess");
                 ReturnValue = true;
             } else if (status == AuthStatus.SSOUnAvaliable) {
+                SSOConfig.providerDomain();
                 out.println("SSO SSOUnAvaliable status : " + auth.errorNumber());
             }
             return ReturnValue;

@@ -183,7 +183,11 @@
 		//}
 
 		// 녹취파일 HTTP 연결
-		file_url.replace("https://cs-record-prd.amorepacific.com","http://localhost");
+		// 운영계
+		//file_url = file_url.replace("https://cs-record-prd.amorepacific.com","http://localhost");
+
+		// 개발계
+		file_url = file_url.replace("https://cs-record-dev.amorepacific.com","http://localhost");
 		url = new URL(file_url);
 
 		httpconn = (HttpURLConnection) url.openConnection();

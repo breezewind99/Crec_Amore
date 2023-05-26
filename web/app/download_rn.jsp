@@ -15,7 +15,8 @@
 
 		if(!CommonUtil.hasText(rec_seq) || !CommonUtil.hasText(download_id))
 		{
-			Site.writeJsonResult(out, false, "등록에 실패했습니다.");
+			Site.writeJsonResult(out, false, "다운로드 목록 추가에 실패하였습니다.\\r\\n" +
+					"오류가 반복될경우 관리자에게 문의 부탁드립니다.");
 			return;
 		}
 
@@ -26,19 +27,22 @@
 		int ins_cnt = db.insert("rec_search_download.insertDownload", argMap);
 		if(ins_cnt < 1)
 		{
-			Site.writeJsonResult(out, false, "등록에 실패했습니다.");
+			Site.writeJsonResult(out, false, "다운로드 목록 추가에 실패하였습니다.\\r\\n" +
+					"오류가 반복될경우 관리자에게 문의 부탁드립니다.");
 			return;
 		}
 
-		Site.writeJsonResult(out, true, "등록에 성공하였습니다.");
+		Site.writeJsonResult(out, true, "다운로드 목록에 추가되었습니다.");
 
 	} catch(NullPointerException e) {
 		//out.print(CommonUtil.getPopupMsg("등록에 실패했습니다.","",""));
-		Site.writeJsonResult(out, false, "등록에 실패했습니다.");
+		Site.writeJsonResult(out, false, "다운로드 목록 추가에 실패하였습니다.\\r\\n" +
+				"오류가 반복될경우 관리자에게 문의 부탁드립니다.");
 		logger.error(e.getMessage());
 	} catch(Exception e) {
 		//out.print(CommonUtil.getPopupMsg("등록에 실패했습니다.","",""));
-		Site.writeJsonResult(out, false, "등록에 실패했습니다.");
+		Site.writeJsonResult(out, false, "다운로드 목록 추가에 실패하였습니다.\\r\\n" +
+				"오류가 반복될경우 관리자에게 문의 부탁드립니다.");
 		logger.error(e.getMessage());
 	} finally {
 		if(db != null)	db.close();

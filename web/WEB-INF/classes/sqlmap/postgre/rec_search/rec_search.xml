@@ -457,21 +457,21 @@
 		<if test='custom_fld_05!=null and custom_fld_05!=""'>
 		and custom_fld_05 = #{custom_fld_05}
 		</if>
-		<if test='_user_level!=null and _user_level!="" and _user_level>"A"'>
+		<if test='user_level!=null and user_level!="" and user_level>"A"'>
 			<choose>
-				<when test='_user_level=="B"'>
+				<when test='user_level=="B"'>
 					and bpart_code = #{_bpart_code}
 				</when>
-				<when test='_user_level=="C"'>
+				<when test='user_level=="C"'>
 					and bpart_code = #{_bpart_code} 
 					and mpart_code = #{_mpart_code}
 				</when>
-				<when test='_user_level=="D"'>
+				<when test='user_level=="D"'>
 					and bpart_code = #{_bpart_code} 
 					and mpart_code = #{_mpart_code} 
 					and spart_code = #{_spart_code}
 				</when>
-				<when test='_user_level=="E"'>
+				<when test='user_level=="E"'>
 					and user_id = #{_user_id}
 				</when>
 			</choose>

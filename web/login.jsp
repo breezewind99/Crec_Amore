@@ -120,6 +120,21 @@
 		}
 		else
 		{
+
+			// 로그인 조건 처리
+			// 상담원은 접근 불가
+			if ("E".equals(data.get("user_level"))) {
+				Site.writeJsonResult(out, false, "상담원 권한은 접근하실수 없습니다. \\r\\n관리자에게 문의 바랍니다.");
+				return;
+			}
+
+//			if ("".equals(data.get("bpart_code")) || "".equals(data.get("mpart_code")) || "".equals(data.get("spart_code"))) {
+			if ("".equals(data.get("bpart_code"))) {
+				Site.writeJsonResult(out, false, "설정된 상담조직이 없습니다. \\r\\n관리자에게 문의 바랍니다.");
+				return;
+			}
+
+
 			//상담원 수정 기본 정보 - CJM(20190516)
 			argMap.put("user_ip", data.get("user_ip"));
 			argMap.put("upd_id", login_id);

@@ -40,6 +40,7 @@
 	$(function(){
 		$("#modalReasonForm").on("show.bs.modal", function(e) {
 			// 청취/다운로드 사유 코드
+			$("#modalReasonForm select[name=reason_code]").empty();
 			getCommCodeToForm("LD_REASON", "modalReasonForm", "reason_code");
 		});
 		

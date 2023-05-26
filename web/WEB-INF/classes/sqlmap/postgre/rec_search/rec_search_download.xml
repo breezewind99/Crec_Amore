@@ -123,6 +123,7 @@
         from (
         select
         ROW_NUMBER() OVER(order by ${s.sort_idx} ${s.sort_dir}) as rownum
+        ,to_char(download_datm, 'YYYYMMDD') as n_download_datm
         ,tr.rec_seq
         ,to_char(rec_datm, 'YYYY-MM-DD HH24:MI:SS') as rec_datm
         ,rec_keycode
@@ -142,6 +143,7 @@
         ,custom_fld_04
         ,custom_fld_05
         ,rec_stt_code
+        ,(select user_name from tbl_user WHERE local_no = download_id) as n_download_name
         <foreach collection='r' index='idx' item='item' open=',' close='' separator=','>
             <choose>
                 <when test='idx=="v_rec_datm"'>
@@ -270,6 +272,9 @@
         </if>
         <if test='s.custom_fld_05!=null and s.custom_fld_05!=""'>
             and custom_fld_05 = #{s.custom_fld_05}
+        </if>
+        <if test='s.download_name!=null and s.download_name!=""'>
+            and trd.download_id in (select local_no from tbl_user where user_name  = #{s.download_name})
         </if>
         <if test='s._user_level!=null and s._user_level!="" and s._user_level>"A"'>
             <choose>

@@ -29,7 +29,7 @@
 		//검색결과 목록 필드 구하기
 		List<Map<String, Object>> fld_list = db.selectList("rec_search.selectResultConfig", confmap);
 		String htmSearchListField = "";
-		
+		htmSearchListField += ",{ title: '요청일자', minWidth: 50, dataIndx: 'n_download_datm', sortable: true }\n";
 		if(fld_list.size() > 0) 
 		{
 			for(Map<String, Object> item : fld_list) 
@@ -41,6 +41,7 @@
 				htmSearchListField += ",{ title: '"+item.get("conf_name")+"', minWidth: " + min_width + ", dataIndx: '"+item.get("result_value")+"', sortable: "+sort_flag+""+down_perm+" }\n";
 			}
 		}
+		htmSearchListField += ",{ title: '요청자', minWidth: 50, dataIndx: 'n_download_name', sortable: true }\n";
 
 		// config search select
 		List<Map<String, Object>> sel_list = db.selectList("rec_search.selectSearchConfig", confmap);
@@ -52,7 +53,18 @@
 	
 		List<Map<String, Object>> system_list = null;
 		List<Map<String, Object>> bpart_list = null;
-		
+
+		Map<String, Object> temp =new HashMap<String, Object>();
+		temp.put("order_no",8);
+		temp.put("conf_name","요청자");
+		temp.put("conf_field","download_name");
+		temp.put("default_used","1");
+		temp.put("conf_code","1010");
+		temp.put("conf_value", "download_name");
+		temp.put("selected","1");
+		temp.put("conf_etc","");
+
+		sel_list.add(temp);
 		for(Map<String, Object> item : sel_list) 
 		{
 			if(item.get("conf_value").equals("system_code")) 
@@ -535,7 +547,7 @@
 				<!--1행 시작-->
 				<div id="recDiv3">
 					<div class="labelDiv" >
-						<label class="simple_tag">일자</label>
+						<label class="simple_tag">요청일자</label>
 						<!-- 달력 팝업 위치 시작-->
 						<div class="input-group" style="display:inline-block;">
 							<input type="text" name="rec_date1" class="form-control search_date datepicker" value="<%=DateUtil.getToday("")%>" maxlength="10">

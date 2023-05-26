@@ -16,7 +16,7 @@
 			{ title: "결과", width: 100, dataIndx: "v_login_result", sortable: false }
 		];
 	
-		var baseDataModel = getBaseGridDM("<%=page_id%>");
+		var baseDataModel = "";
 		var dataModel = $.extend({}, baseDataModel, {
 			//sortIndx: "login_datm",
 			sortDir: "down",
@@ -31,6 +31,39 @@
 		});
 	
 		$grid = $("#grid").pqGrid(obj);
+
+		$("button[name=btn_search]").click(function()
+		{
+			Search();
+		});
+
+		// 녹취 조회 기능 - CJM(20190107)
+		var Search = function()
+		{
+			if(!baseGridChk)
+			{
+				if(!fnValidation("<%=page_id%>"))	return;
+				baseDataModel = getBaseGridDM("<%=page_id%>");
+				dataModel = $.extend({}, baseDataModel, {
+					//sortIndx: "rec_datm",
+					sortDir: "down",
+				});
+
+				obj = $.extend({}, baseObj, {
+					colModel: colModel,
+					dataModel: dataModel,
+					//flexWidth: true,
+					//scrollModel: { autoFit: true },
+					//scrollModel: { pace:"fast",horizontal:true, lastColumn:"auto",autoFit: false,theme:true},
+					//scrollModel: {horizontal:true, autoFit: true},
+					//selectionModel: { type: "cell", mode: "block"}
+					selectionModel: { type: "none", subtype:"incr", cbHeader:true, cbAll:true}
+				});
+
+				$grid = $("#grid").pqGrid(obj);
+				$grid.pqGrid("refreshDataAndView");	//타이틀 체크박스가 안나타 나서 추가함 : 조회가 두번 호출 되는게 아닌가? (체크 필요)
+			}
+		};
 	});
 </script>
 

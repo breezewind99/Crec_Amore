@@ -4,6 +4,10 @@
 <%@ include file="/common/common.jsp" %>
 <%@ include file="/common/function.jsp" %>
 <%
+    boolean checksso = CheckSSOService(request, response);
+	// 개발용
+	checksso=true;
+    if (checksso) {
 	// 상담 APP 청취
 	// http://localhost:8080/app/player.jsp?date=2022-08-23&keycode=00001025271661214629
 	// https://cs-rec.lotteimall.com/app/player.jsp?rec_datm=2022-08-23&rec_keycode=00001025271661214629&user_id=test&user_name=%ED%85%8C%EC%8A%A4%ED%8A%B8
@@ -19,7 +23,7 @@
 
 		// get parameter
 		String rec_datm = CommonUtil.getParameter("rec_datm");
-		String rec_keycode = CommonUtil.getParameter("rec_keycode");
+		String rec_keycode = CommonUtil.getParameter("conv_id");
 		String user_id = CommonUtil.getParameter("user_id");
 		String user_name = CommonUtil.getParameter("user_name");
 		String reason_code = CommonUtil.getParameter("reason_code");
@@ -46,7 +50,10 @@
 		List<Map<String, Object>> list = db.selectList("rec_search.selectRelationList", argMap);
 		if(list.size() < 1)
 		{
-			out.print(CommonUtil.getDocumentMsg(CommonUtil.getErrorMsg("NO_DATA"),"","close"));
+			out.print("<center>녹취 파일을 등록하고 있습니다.<br>" +
+					"잠시 후 다시 시도해 주세요.<br>" +
+					"<br>" +
+					"5분 이상 지속 시 관리자에게 문의 부탁드립니다.</center>");
 			return;
 		}
 
@@ -74,7 +81,7 @@
 		String dispRelateRecord = "";
 		String htmlDownload = "";
 		if(CommonUtil.hasText(download) && "1".equals(download)) {
-			htmlDownload = "<button type=\"button\" name=\"btn_marking\" class=\"btn btn-primary btn-sm\" onclick=\"downloadapp();\">다운로드</button>";
+			htmlDownload = "<button type=\"button\" name=\"btn_marking\" class=\"btn btn-primary btn-sm\" onclick=\"downloadapp();\">다운로드 요청</button>";
 		}
 
 		if(list.size() > 1)
@@ -187,7 +194,7 @@
 			dataType: "json",
 			success:function(dataJSON){
 				if(dataJSON.code=="OK") {
-					alert("정상적으로 등록되었습니다.");
+					alert(dataJSON.msg);
 					//마킹 숨김 처리 - CJM(20190527)
 				} else {
 					alert(dataJSON.msg);
@@ -203,7 +210,7 @@
 </script>
 </head>
 
-<body class="white-bg">
+<body class="white-bg" style="background-color:#ffffff">
 <div id="container" style="width: 556px">
 	<div class="memo-body">
 		<!--녹음파일 파형 영역 시작-->
@@ -266,13 +273,37 @@
 				</tr>
 				</thead>
 				<tr>
-					<td class="table-td">상담원 명(ID)</td>
-					<td><%=Mask.getMaskedName(curdata.get("user_name")) %>(<%=curdata.get("user_id") %>)</td>
+					<td class="table-td">Division</td>
+					<td><%=curdata.get("custom_fld_03") %></td>
 				</tr>
 				<tr>
-					<td class="table-td">고객 전화번호</td>
-					<td><%=(curdata.get("cust_tel")!=null ? Mask.getMaskedPhoneNum2(curdata.get("cust_tel").toString().trim()) : "") %></td>
+					<td class="table-td">상담원 ID</td>
+					<td><%=curdata.get("user_id") %></td>
 				</tr>
+				<tr>
+					<td class="table-td">상담원 명</td>
+					<td><%=Mask.getMaskedName(curdata.get("user_name")) %></td>
+				</tr>
+				<tr>
+					<td class="table-td">Conversation ID</td>
+					<td><%=curdata.get("rec_keycode") %></td>
+				</tr>
+				<tr>
+					<td class="table-td">녹취 파일명</td>
+					<td><%=curdata.get("rec_filename") %></td>
+				</tr>
+				<tr>
+					<td class="table-td">Queue</td>
+					<td><%=curdata.get("custom_fld_01") %></td>
+				</tr>
+				<tr>
+					<td class="table-td">Reason Code</td>
+					<td><%=curdata.get("custom_fld_02") %></td>
+				</tr>
+<%--				<tr>--%>
+<%--					<td class="table-td">고객 전화번호</td>--%>
+<%--					<td><%=(curdata.get("cust_tel")!=null ? Mask.getMaskedPhoneNum2(curdata.get("cust_tel").toString().trim()) : "") %></td>--%>
+<%--				</tr>--%>
 			</table>
 		</div>
 		<!--녹취 이력 정보 table 끝-->
@@ -311,4 +342,7 @@
 	{
 		if(db != null)	db.close();
 	}
+    } else {
+        out.println("<center>통합인증(SSO)을 확인할수 없습니다.<br> 다시 시도해 주십시요</center>");
+    }
 %>
